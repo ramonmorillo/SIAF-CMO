@@ -1,1287 +1,1598 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIPF-CMO Dashboard</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f5f5f5;
-            color: #333;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .header p {
-            opacity: 0.9;
-            font-size: 0.95rem;
-        }
-
-        .tabs {
-            background: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-
-        .tabs-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            display: flex;
-            gap: 2rem;
-        }
-
-        .tab-button {
-            background: none;
-            border: none;
-            padding: 1rem 0.5rem;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #666;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .tab-button:hover {
-            color: #333;
-        }
-
-        .tab-button.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-        }
-
-        .main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        .stat-value.purple { color: #667eea; }
-        .stat-value.green { color: #10b981; }
-        .stat-value.blue { color: #3b82f6; }
-        .stat-value.orange { color: #f59e0b; }
-
-        .section {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-        }
-
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .quick-access {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-
-        .quick-card {
-            border: 2px solid #e0d4f7;
-            padding: 1.5rem;
-            border-radius: 8px;
-            transition: all 0.3s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .quick-card:hover {
-            border-color: #667eea;
-            background: #f9f7fe;
-            transform: translateY(-2px);
-        }
-
-        .quick-card-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .quick-card-id {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 0.75rem;
-        }
-
-        .quick-card-desc {
-            font-size: 0.9rem;
-            color: #555;
-            margin-bottom: 1rem;
-        }
-
-        .quick-card-btn {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: #667eea;
-            color: white;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .filter-btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 6px;
-            background: #f3f4f6;
-            color: #374151;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .filter-btn:hover {
-            background: #e5e7eb;
-        }
-
-        .filter-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .filter-divider {
-            width: 1px;
-            background: #d1d5db;
-            margin: 0 0.5rem;
-        }
-
-        .filter-label {
-            padding: 0.5rem;
-            font-size: 0.85rem;
-            color: #6b7280;
-            font-weight: 500;
-        }
-
-        .artifacts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .artifact-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            padding: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .artifact-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transform: translateY(-4px);
-        }
-
-        .artifact-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1rem;
-        }
-
-        .artifact-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #1f2937;
-        }
-
-        .artifact-id {
-            font-size: 0.85rem;
-            color: #6b7280;
-            margin-top: 0.25rem;
-        }
-
-        .artifact-desc {
-            font-size: 0.9rem;
-            color: #4b5563;
-            margin-bottom: 1rem;
-        }
-
-        .badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .badge-cmo { background: #dbeafe; color: #1e40af; }
-        .badge-deft { background: #e9d5ff; color: #6b21a8; }
-        .badge-uso { background: #f3f4f6; color: #374151; }
-
-        .note-box {
-            padding: 0.75rem;
-            border-radius: 6px;
-            margin-bottom: 0.75rem;
-            font-size: 0.85rem;
-            border-left: 4px solid;
-        }
-
-        .note-warning { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
-        .note-info { background: #dbeafe; border-color: #3b82f6; color: #1e3a8a; }
-        .note-success { background: #d1fae5; border-color: #10b981; color: #065f46; }
-        .note-highlight { background: #fef9c3; border-color: #eab308; color: #713f12; }
-
-        .artifact-btn {
-            display: block;
-            width: 100%;
-            padding: 0.75rem;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 500;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .artifact-btn:hover {
-            background: #5568d3;
-        }
-
-        .artifact-btn.disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .module-card {
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 2px solid #e5e7eb;
-            background: #f9fafb;
-        }
-
-        .module-card.gap {
-            background: #fef2f2;
-            border-color: #fecaca;
-        }
-
-        .module-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .module-name {
-            font-weight: 600;
-            color: #1f2937;
-        }
-
-        .module-count {
-            font-size: 0.85rem;
-            color: #6b7280;
-            margin-top: 0.25rem;
-        }
-
-        .module-gap-tag {
-            font-size: 0.75rem;
-            color: #dc2626;
-            font-weight: 600;
-            margin-top: 0.5rem;
-            display: inline-block;
-        }
-
-        .module-section {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .module-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .module-header-icon {
-            font-size: 2rem;
-        }
-
-        .module-header-text h3 {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #1f2937;
-        }
-
-        .module-header-text p {
-            font-size: 0.85rem;
-            color: #6b7280;
-        }
-
-        .artifact-list-item {
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            transition: all 0.3s;
-        }
-
-        .artifact-list-item:hover {
-            background: #f9fafb;
-        }
-
-        .artifact-list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-        }
-
-        .artifact-list-name {
-            font-weight: 600;
-            color: #1f2937;
-        }
-
-        .artifact-list-module {
-            font-size: 0.85rem;
-            color: #6b7280;
-            margin-top: 0.25rem;
-        }
-
-        .artifact-list-desc {
-            font-size: 0.9rem;
-            color: #4b5563;
-            margin-top: 0.5rem;
-        }
-
-        .artifact-list-btn {
-            padding: 0.5rem 1rem;
-            background: #f3f4f6;
-            color: #667eea;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .artifact-list-btn:hover {
-            background: #e5e7eb;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #9ca3af;
-        }
-
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        footer {
-            background: #1f2937;
-            color: white;
-            padding: 2rem 1rem;
-            margin-top: 3rem;
-            text-align: center;
-        }
-
-        footer p {
-            font-size: 0.85rem;
-            opacity: 0.7;
-            margin-bottom: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .artifacts-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tabs-container {
-                overflow-x: auto;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SIAF-CMO: Sistema Inteligente de Atención Farmacéutica basado en CMO-MAPEX-DEFT-AI" />
+  <title>SIAF-CMO | Hub CMO-MAPEX-DEFT-AI</title>
+  <style>
+    :root {
+      --navy-950: #061528;
+      --navy-900: #0b1f3a;
+      --navy-800: #12335c;
+      --teal-500: #14b8a6;
+      --teal-600: #0d9488;
+      --violet-500: #8b5cf6;
+      --violet-700: #6d28d9;
+      --amber-400: #fbbf24;
+      --amber-500: #f59e0b;
+      --red-100: #fee2e2;
+      --red-500: #ef4444;
+      --slate-950: #020617;
+      --slate-800: #1e293b;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748b;
+      --slate-200: #e2e8f0;
+      --slate-100: #f1f5f9;
+      --slate-50: #f8fafc;
+      --white: #ffffff;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.09);
+      --shadow-lift: 0 24px 70px rgba(15, 23, 42, 0.16);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --container: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--slate-800);
+      background:
+        radial-gradient(circle at top left, rgba(20, 184, 166, 0.14), transparent 28rem),
+        radial-gradient(circle at top right, rgba(139, 92, 246, 0.13), transparent 30rem),
+        linear-gradient(180deg, #f8fbff 0%, #eef5f8 46%, #f8fafc 100%);
+      line-height: 1.55;
+    }
+
+    body.conference-mode {
+      font-size: 18px;
+      background: linear-gradient(180deg, #f8fbff 0%, #eef6f8 100%);
+    }
+
+    a { color: inherit; }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -5rem;
+      z-index: 1000;
+      padding: 0.75rem 1rem;
+      border-radius: 999px;
+      background: var(--navy-900);
+      color: var(--white);
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus { top: 1rem; }
+
+    .container {
+      width: min(var(--container), calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .app-shell { overflow: clip; }
+
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.75);
+      background: rgba(255, 255, 255, 0.84);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+    }
+
+    .nav-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: fit-content;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--navy-900), var(--teal-500));
+      color: var(--white);
+      box-shadow: 0 12px 25px rgba(20, 184, 166, 0.25);
+      font-weight: 900;
+    }
+
+    .brand strong {
+      display: block;
+      color: var(--navy-900);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--slate-500);
+      font-size: 0.76rem;
+      line-height: 1.2;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar { display: none; }
+
+    .nav-link {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.68rem 0.86rem;
+      background: transparent;
+      color: var(--slate-600);
+      font-weight: 750;
+      font-size: 0.88rem;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: rgba(20, 184, 166, 0.12);
+      color: var(--navy-900);
+    }
+
+    .mode-toggle {
+      min-width: fit-content;
+      border: 1px solid rgba(20, 184, 166, 0.35);
+      border-radius: 999px;
+      padding: 0.68rem 0.9rem;
+      background: linear-gradient(135deg, rgba(20, 184, 166, 0.12), rgba(139, 92, 246, 0.10));
+      color: var(--navy-900);
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .hero {
+      position: relative;
+      padding: 5.4rem 0 3.2rem;
+      color: var(--white);
+      background:
+        linear-gradient(135deg, rgba(6, 21, 40, 0.97) 0%, rgba(11, 31, 58, 0.96) 50%, rgba(26, 56, 92, 0.94) 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 20%, rgba(20, 184, 166, 0.27), transparent 24rem),
+        radial-gradient(circle at 82% 12%, rgba(139, 92, 246, 0.28), transparent 28rem),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: auto, auto, 64px 64px, 64px 64px;
+      opacity: 0.82;
+    }
+
+    .hero .container {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow,
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      width: fit-content;
+      border-radius: 999px;
+      font-weight: 850;
+      letter-spacing: 0.01em;
+    }
+
+    .eyebrow {
+      padding: 0.5rem 0.78rem;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      color: #d9fffb;
+      font-size: 0.86rem;
+    }
+
+    .hero h1 {
+      margin: 1.25rem 0 0.7rem;
+      font-size: clamp(3.1rem, 8vw, 6.8rem);
+      line-height: 0.88;
+      letter-spacing: -0.08em;
+    }
+
+    .hero h1 span {
+      display: block;
+      background: linear-gradient(135deg, #ffffff 0%, #c7fff7 55%, #e2d6ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      max-width: 840px;
+      color: #dbeafe;
+      font-size: clamp(1.25rem, 2.6vw, 2rem);
+      line-height: 1.18;
+      font-weight: 850;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-value {
+      max-width: 760px;
+      margin: 1.1rem 0 0;
+      color: rgba(241, 245, 249, 0.88);
+      font-size: 1.12rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 1.65rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      border: 0;
+      border-radius: 999px;
+      padding: 0.88rem 1.14rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .button:hover { transform: translateY(-2px); }
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--teal-500), #5eead4);
+      color: var(--navy-950);
+      box-shadow: 0 18px 34px rgba(20, 184, 166, 0.28);
+    }
+
+    .button-secondary {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--white);
+    }
+
+    .button-light {
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      background: var(--white);
+      color: var(--navy-900);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+    }
+
+    .hero-panel {
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius-xl);
+      padding: 1.35rem;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+    }
+
+    .hero-panel h2 {
+      margin: 0 0 1rem;
+      font-size: 1.05rem;
+      color: #e0fffb;
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .signal-card {
+      border-radius: 18px;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+    }
+
+    .signal-card strong {
+      display: block;
+      font-size: 1.75rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .signal-card span {
+      display: block;
+      margin-top: 0.35rem;
+      color: rgba(241, 245, 249, 0.78);
+      font-size: 0.83rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .badge {
+      padding: 0.42rem 0.7rem;
+      font-size: 0.78rem;
+      border: 1px solid rgba(226, 232, 240, 0.72);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--slate-700);
+    }
+
+    .badge-teal { background: rgba(20, 184, 166, 0.13); color: #0f766e; border-color: rgba(20, 184, 166, 0.2); }
+    .badge-violet { background: rgba(139, 92, 246, 0.13); color: #6d28d9; border-color: rgba(139, 92, 246, 0.2); }
+    .badge-amber { background: rgba(245, 158, 11, 0.15); color: #92400e; border-color: rgba(245, 158, 11, 0.22); }
+    .badge-red { background: var(--red-100); color: #b91c1c; border-color: rgba(239, 68, 68, 0.18); }
+    .badge-dark { background: rgba(11, 31, 58, 0.95); color: var(--white); border-color: rgba(11, 31, 58, 0.15); }
+
+    .section {
+      padding: 4.6rem 0;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(260px, 0.5fr);
+      gap: 1.3rem;
+      align-items: end;
+      margin-bottom: 1.55rem;
+    }
+
+    .section-kicker {
+      color: var(--teal-600);
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-size: 0.76rem;
+    }
+
+    .section-title {
+      margin: 0.3rem 0 0;
+      color: var(--navy-900);
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .section-lead {
+      margin: 0.8rem 0 0;
+      max-width: 850px;
+      color: var(--slate-600);
+      font-size: 1.04rem;
+    }
+
+    .card {
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .glass-card {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .quick-grid,
+    .kpi-grid,
+    .cmo-grid,
+    .journey-grid,
+    .resources-grid,
+    .story-grid,
+    .dev-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .quick-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .cmo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .journey-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .resources-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .story-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .dev-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .quick-card,
+    .resource-card,
+    .story-card,
+    .dev-card {
+      padding: 1.1rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .quick-card:hover,
+    .resource-card:hover,
+    .dev-card:hover,
+    .artifact-card:hover,
+    .journey-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lift);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(20, 184, 166, 0.15), rgba(139, 92, 246, 0.12));
+      font-size: 1.4rem;
+    }
+
+    .quick-card h3,
+    .resource-card h3,
+    .story-card h3,
+    .dev-card h3,
+    .artifact-card h3,
+    .journey-card h3 {
+      margin: 0.8rem 0 0.3rem;
+      color: var(--navy-900);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .quick-card p,
+    .resource-card p,
+    .story-card p,
+    .dev-card p,
+    .artifact-card p,
+    .journey-card p {
+      margin: 0.35rem 0;
+      color: var(--slate-600);
+      font-size: 0.92rem;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+      margin-top: 0.95rem;
+    }
+
+    .access-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border: 0;
+      border-radius: 999px;
+      padding: 0.58rem 0.78rem;
+      background: var(--navy-900);
+      color: var(--white);
+      font-weight: 850;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .copy-button,
+    .reset-button {
+      border: 1px solid var(--slate-200);
+      border-radius: 999px;
+      padding: 0.55rem 0.72rem;
+      background: var(--white);
+      color: var(--slate-700);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .controls-card {
+      padding: 1rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      flex: 1 1 280px;
+      min-width: 220px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 1px solid var(--slate-200);
+      border-radius: 999px;
+      padding: 0.82rem 1rem 0.82rem 2.55rem;
+      background: var(--slate-50);
+      color: var(--slate-800);
+      font: inherit;
+      outline: none;
+    }
+
+    .search-box span {
+      position: absolute;
+      top: 50%;
+      left: 0.95rem;
+      transform: translateY(-50%);
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--slate-200);
+      border-radius: 999px;
+      padding: 0.64rem 0.82rem;
+      background: var(--white);
+      color: var(--slate-700);
+      font-weight: 850;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: rgba(20, 184, 166, 0.45);
+      background: rgba(20, 184, 166, 0.12);
+      color: var(--navy-900);
+    }
+
+    .artifacts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .artifact-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 1.15rem;
+      min-height: 100%;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .artifact-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 5px;
+      background: linear-gradient(90deg, var(--navy-900), var(--teal-500), var(--violet-500));
+    }
+
+    .artifact-head {
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+    }
+
+    .artifact-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.42rem;
+      margin-top: 0.8rem;
+    }
+
+    .artifact-tags {
+      display: grid;
+      gap: 0.45rem;
+      margin-top: 0.85rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.38rem;
+      align-items: center;
+    }
+
+    .tag-label {
+      min-width: 82px;
+      color: var(--slate-500);
+      font-size: 0.76rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .insight-note {
+      margin-top: 0.75rem;
+      padding: 0.7rem;
+      border-radius: 14px;
+      background: rgba(245, 158, 11, 0.10);
+      color: #8a5400;
+      font-size: 0.86rem;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .artifact-actions {
+      display: flex;
+      gap: 0.45rem;
+      margin-top: auto;
+      padding-top: 1rem;
+    }
+
+    .artifact-actions .access-button { flex: 1; justify-content: center; }
+
+    .small-muted {
+      color: var(--slate-500);
+      font-size: 0.86rem;
+    }
+
+    .cmo-card {
+      position: relative;
+      overflow: hidden;
+      padding: 1.45rem;
+    }
+
+    .cmo-card::after {
+      content: attr(data-letter);
+      position: absolute;
+      right: -0.2rem;
+      bottom: -2.4rem;
+      color: rgba(15, 23, 42, 0.055);
+      font-size: 11rem;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .cmo-card h3 { margin: 0.8rem 0 0.45rem; font-size: 1.55rem; color: var(--navy-900); }
+    .cmo-card ul, .story-card ul, .dev-card ul { margin: 0.8rem 0 0; padding-left: 1.1rem; color: var(--slate-600); }
+
+    .deft-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .deft-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .deft-card {
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .deft-card::before {
+      content: "";
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      top: 0;
+      height: 5px;
+      border-radius: 0 0 999px 999px;
+      background: var(--accent, var(--teal-500));
+    }
+
+    .deft-letter {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--accent, var(--teal-500)) 16%, white);
+      color: var(--accent, var(--teal-500));
+      font-size: 1.4rem;
+      font-weight: 950;
+    }
+
+    .deft-card h3 { margin: 0.8rem 0 0.35rem; color: var(--navy-900); }
+    .deft-card dl { margin: 0.8rem 0 0; display: grid; gap: 0.55rem; }
+    .deft-card dt { color: var(--slate-500); font-weight: 950; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .deft-card dd { margin: 0.16rem 0 0; color: var(--slate-600); font-size: 0.86rem; }
+
+    .flow-panel {
+      padding: 1.15rem;
+      background: linear-gradient(160deg, var(--navy-900), #133b63);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .flow-panel h3 { margin: 0 0 1rem; }
+    .flow-steps { display: grid; gap: 0.72rem; counter-reset: flow; }
+    .flow-step {
+      counter-increment: flow;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 0.7rem;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .flow-step::before {
+      content: counter(flow);
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: rgba(20, 184, 166, 0.2);
+      color: #99f6e4;
+      font-weight: 950;
+    }
+
+    .journey-card { padding: 1.2rem; transition: all 0.2s ease; }
+    .journey-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.55rem; margin-top: 1rem; }
+    .journey-step { padding: 0.75rem; border-radius: 15px; background: var(--slate-50); border: 1px solid var(--slate-200); }
+    .journey-step strong { display: block; color: var(--navy-900); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .journey-step span { display: block; margin-top: 0.25rem; color: var(--slate-600); font-size: 0.84rem; }
+
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(330px, 0.55fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .kpi-card { padding: 1.1rem; }
+    .kpi-label { color: var(--slate-500); font-weight: 850; font-size: 0.84rem; }
+    .kpi-value { margin-top: 0.25rem; font-size: 2.2rem; line-height: 1; color: var(--navy-900); font-weight: 950; letter-spacing: -0.06em; }
+    .kpi-note { margin-top: 0.5rem; color: var(--slate-500); font-size: 0.82rem; }
+
+    .chart-card { padding: 1.15rem; }
+    .chart-card h3 { margin: 0 0 1rem; color: var(--navy-900); }
+    .bar-list { display: grid; gap: 0.75rem; }
+    .bar-row { display: grid; grid-template-columns: 150px 1fr 36px; gap: 0.6rem; align-items: center; }
+    .bar-track { height: 12px; border-radius: 999px; background: var(--slate-100); overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--teal-500), var(--violet-500)); }
+
+    .donut-wrap { display: grid; grid-template-columns: 170px 1fr; gap: 1rem; align-items: center; }
+    .donut {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: conic-gradient(var(--navy-900) 0 34%, var(--teal-500) 34% 58%, var(--violet-500) 58% 78%, var(--amber-500) 78% 100%);
+      position: relative;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+    .donut::after { content: "10"; position: absolute; inset: 28px; border-radius: 50%; background: var(--white); display: grid; place-items: center; color: var(--navy-900); font-size: 2.25rem; font-weight: 950; }
+    .legend { display: grid; gap: 0.55rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; color: var(--slate-600); font-size: 0.9rem; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--dot); }
+
+    .matrix-wrap { overflow-x: auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); }
+    .matrix {
+      min-width: 980px;
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+    }
+    .matrix th,
+    .matrix td {
+      border: 1px solid var(--slate-200);
+      padding: 0.9rem;
+      vertical-align: top;
+    }
+    .matrix th { background: #eef8f7; color: var(--navy-900); text-align: left; }
+    .matrix td { color: var(--slate-600); font-size: 0.9rem; }
+    .matrix tbody th { width: 150px; background: #f8fbff; }
+
+    .checklist-card { padding: 1.1rem; }
+    .progress-line { display: grid; grid-template-columns: 1fr auto; gap: 0.85rem; align-items: center; margin-bottom: 1rem; }
+    .progress-track { height: 12px; border-radius: 999px; background: var(--slate-100); overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; border-radius: inherit; background: linear-gradient(90deg, var(--teal-500), var(--violet-500)); transition: width 0.2s ease; }
+    .checklist-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .check-block { padding: 1rem; border-radius: var(--radius-lg); background: var(--white); border: 1px solid var(--slate-200); }
+    .check-block h3 { margin: 0 0 0.75rem; color: var(--navy-900); }
+    .check-item { display: flex; gap: 0.55rem; align-items: flex-start; padding: 0.48rem 0; color: var(--slate-600); }
+    .check-item input { width: 18px; height: 18px; accent-color: var(--teal-600); margin-top: 0.15rem; }
+    .check-item:has(input:checked) { color: var(--slate-400); text-decoration: line-through; }
+
+    .safety-card {
+      padding: 1.4rem;
+      border-color: rgba(245, 158, 11, 0.35);
+      background: linear-gradient(135deg, rgba(255, 251, 235, 0.98), rgba(255, 255, 255, 0.94));
+    }
+
+    .safety-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .safety-list li { padding: 0.8rem; border-radius: 15px; background: rgba(255, 255, 255, 0.82); border: 1px solid rgba(245, 158, 11, 0.18); color: var(--slate-700); }
+
+    .story-band {
+      border-radius: calc(var(--radius-xl) + 6px);
+      padding: 2rem;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(20, 184, 166, 0.2), transparent 18rem),
+        radial-gradient(circle at 88% 30%, rgba(139, 92, 246, 0.2), transparent 18rem),
+        linear-gradient(135deg, var(--navy-900), #15385f);
+      color: var(--white);
+      box-shadow: var(--shadow-lift);
+    }
+    .story-band .section-title, .story-band .section-lead { color: var(--white); }
+    .story-band .story-card { background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.14); color: var(--white); }
+    .story-band .story-card h3, .story-band .story-card li { color: var(--white); }
+
+    .footer {
+      padding: 2.2rem 0;
+      color: rgba(255, 255, 255, 0.72);
+      background: var(--navy-950);
+    }
+    .footer-grid { display: flex; justify-content: space-between; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .footer strong { color: var(--white); }
+
+    .back-to-top {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 40;
+      width: 48px;
+      height: 48px;
+      border: 0;
+      border-radius: 16px;
+      background: var(--navy-900);
+      color: var(--white);
+      box-shadow: var(--shadow-lift);
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: all 0.2s ease;
+    }
+    .back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1.15rem;
+      z-index: 60;
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      pointer-events: none;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      background: var(--navy-900);
+      color: var(--white);
+      box-shadow: var(--shadow-lift);
+      transition: all 0.2s ease;
+    }
+    .toast.visible { opacity: 1; transform: translate(-50%, 0); }
+
+    body.conference-mode .hide-in-conference { display: none !important; }
+    body.conference-mode .section { padding: 5.2rem 0; }
+    body.conference-mode .card { box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12); }
+    body.conference-mode .section-title { font-size: clamp(2.4rem, 4.8vw, 4rem); }
+    body.conference-mode .artifacts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    @media (max-width: 1100px) {
+      .hero .container,
+      .section-header,
+      .deft-wrap,
+      .dashboard-layout { grid-template-columns: 1fr; }
+      .quick-grid, .kpi-grid, .resources-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .artifacts-grid, .deft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav-inner { align-items: stretch; flex-direction: column; padding: 0.7rem 0; }
+      .mode-toggle { align-self: flex-start; }
+    }
+
+    @media (max-width: 760px) {
+      .hero { padding: 3.5rem 0 2.3rem; }
+      .signal-grid, .quick-grid, .kpi-grid, .cmo-grid, .journey-grid, .resources-grid, .story-grid, .dev-grid, .checklist-grid, .deft-grid, .artifacts-grid, body.conference-mode .artifacts-grid, .safety-list { grid-template-columns: 1fr; }
+      .journey-steps { grid-template-columns: 1fr; }
+      .donut-wrap { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 110px 1fr 30px; }
+      .hero-actions .button { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <h1>🏥 SIPF-CMO Dashboard</h1>
-            <p>Sistema Integrado de Práctica Farmacéutica - Modelo CMO-MAPEX-DEFT-AI</p>
-        </div>
-    </header>
-
-    <!-- Tabs -->
-    <nav class="tabs">
-        <div class="tabs-container">
-            <button class="tab-button active" onclick="switchTab('dashboard')">📊 Dashboard</button>
-            <button class="tab-button" onclick="switchTab('artefactos')">🔧 Artefactos</button>
-            <button class="tab-button" onclick="switchTab('modulos')">📁 Módulos</button>
-            <button class="tab-button" onclick="switchTab('recursos')">📚 Recursos</button>
-        </div>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <div class="app-shell">
+    <nav class="top-nav" aria-label="Navegación principal">
+      <div class="container nav-inner">
+        <a class="brand" href="#inicio" aria-label="Ir a inicio">
+          <span class="brand-mark" data-platform-short>S</span>
+          <span><strong data-platform-name>SIAF-CMO</strong><span data-platform-version>v2.0 conferencia</span></span>
+        </a>
+        <div class="nav-links" id="navLinks"></div>
+        <button class="mode-toggle" id="conferenceModeBtn" type="button">🎙️ Modo conferencia</button>
+      </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="main">
-        <!-- Dashboard Tab -->
-        <div id="dashboard-tab" class="tab-content active">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Artefactos Totales</div>
-                    <div class="stat-value purple">10</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Operativos</div>
-                    <div class="stat-value green">10</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Uso Diario</div>
-                    <div class="stat-value blue">5</div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">⚡ Acceso Rápido - Herramientas Diarias</h2>
-                <div class="quick-access" id="quick-access"></div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">📁 Módulos SIPF-CMO</h2>
-                <div class="modules-grid" id="modules-overview"></div>
-            </div>
-
-            <!-- DEFT-AI Framework Widget - COLLAPSIBLE -->
-            <div class="section" style="background: linear-gradient(135deg, #f0f4ff 0%, #e9f3ff 100%); border: 2px solid #3b82f6;">
-                <button onclick="toggleDeftAI()" 
-                        style="width: 100%; display: flex; align-items: center; justify-content: space-between; background: none; border: none; cursor: pointer; padding: 0;">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <div style="font-size: 2.5rem;">📄</div>
-                        <div style="text-align: left;">
-                            <h2 style="font-size: 1.5rem; font-weight: bold; color: #1e40af; margin: 0;">Marco DEFT-AI para Integración IA</h2>
-                            <p style="color: #1e3a8a; font-size: 0.9rem; margin: 0.25rem 0 0 0;">
-                                Modelo de integración segura de IA en consultas externas
-                            </p>
-                        </div>
-                    </div>
-                    <div id="deft-toggle-icon" style="font-size: 1.5rem; color: #3b82f6; transition: transform 0.3s;">▼</div>
-                </button>
-
-                <div id="deft-content" style="display: none; margin-top: 1.5rem;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-                        <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #3b82f6;">
-                            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔍</div>
-                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">D - Diagnosis</div>
-                            <div style="font-size: 0.85rem; color: #4b5563;">Evaluación continua complejidad</div>
-                        </div>
-                        <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #8b5cf6;">
-                            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📚</div>
-                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">E - Evidence</div>
-                            <div style="font-size: 0.85rem; color: #4b5563;">Base de evidencia científica</div>
-                        </div>
-                        <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #10b981;">
-                            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💬</div>
-                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">F - Feedback</div>
-                            <div style="font-size: 0.85rem; color: #4b5563;">Retroalimentación personalizada</div>
-                        </div>
-                        <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #f59e0b;">
-                            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎓</div>
-                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">T - Teaching</div>
-                            <div style="font-size: 0.85rem; color: #4b5563;">Alfabetización digital pacientes</div>
-                        </div>
-                        <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #ec4899;">
-                            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🤖</div>
-                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">AI - Habilitadora</div>
-                            <div style="font-size: 0.85rem; color: #4b5563;">Optimización de flujos</div>
-                        </div>
-                    </div>
-
-                    <div style="background: white; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-                        <div style="font-size: 0.85rem; color: #4b5563;">
-                            <strong style="color: #1f2937;">📊 Estado:</strong> Manuscrito en revisión por pares (enviado enero 2025)
-                        </div>
-                    </div>
-
-                    <button onclick="switchTab('recursos'); document.getElementById('deft-guide').scrollIntoView({behavior: 'smooth'});" 
-                            style="width: 100%; padding: 0.75rem; background: #3b82f6; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.3s;"
-                            onmouseover="this.style.background='#2563eb'" 
-                            onmouseout="this.style.background='#3b82f6'">
-                        Ver Guía Completa de Aplicación →
-                    </button>
-                </div>
-            </div>
+    <header class="hero" id="inicio">
+      <div class="container">
+        <div>
+          <div class="eyebrow">🏥 Healthcare intelligence dashboard · CMO-MAPEX-DEFT-AI</div>
+          <h1><span data-platform-name>SIAF-CMO</span></h1>
+          <div class="hero-subtitle" data-platform-subtitle>Sistema Inteligente de Atención Farmacéutica basado en CMO-MAPEX-DEFT-AI</div>
+          <p class="hero-value" data-platform-tagline>Un ecosistema digital para estratificar, priorizar, intervenir, formar e investigar en consultas externas de farmacia hospitalaria.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#ecosistema">Explorar ecosistema →</a>
+            <a class="button button-secondary" href="#deft-ai">Ver marco DEFT-AI</a>
+          </div>
+          <div class="hero-badges" aria-label="Mensajes clave">
+            <span class="badge badge-teal">CMO: Capacidad–Motivación–Oportunidad</span>
+            <span class="badge badge-violet">IA responsable</span>
+            <span class="badge badge-amber">IA como apoyo. Decisión final profesional.</span>
+          </div>
         </div>
+        <aside class="hero-panel" aria-label="Indicadores principales">
+          <h2>Estado del ecosistema</h2>
+          <div class="signal-grid" id="heroMetrics"></div>
+          <div class="hero-badges">
+            <span class="badge badge-dark">MAPEX-SEFH</span>
+            <span class="badge badge-dark">Práctica clínica</span>
+            <span class="badge badge-dark">Docencia</span>
+            <span class="badge badge-dark">Investigación</span>
+          </div>
+        </aside>
+      </div>
+    </header>
 
-        <!-- Artefactos Tab -->
-        <div id="artefactos-tab" class="tab-content">
-            <div class="section">
-                <div class="filters" id="filters"></div>
+    <main id="contenido">
+      <section class="section hide-in-conference" id="acceso-rapido">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Acceso rápido</div>
+              <h2 class="section-title">Herramientas críticas para el día a día</h2>
+              <p class="section-lead">Entrada directa a los artefactos destacados de uso operativo, manteniendo los enlaces actuales y apertura en nueva pestaña.</p>
             </div>
-            <div class="artifacts-grid" id="artifacts-grid"></div>
+            <a class="button button-light" href="#uso-consulta">Ver checklist diario</a>
+          </div>
+          <div class="quick-grid" id="quickAccessGrid"></div>
         </div>
+      </section>
 
-        <!-- Módulos Tab -->
-        <div id="modulos-tab" class="tab-content">
-            <div id="modules-detail"></div>
+      <section class="section" id="ecosistema">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Ecosistema digital</div>
+              <h2 class="section-title">Artefactos como plataforma, no como lista</h2>
+              <p class="section-lead">Cada herramienta se sitúa por finalidad, dimensión CMO, componente DEFT-AI, estado y frecuencia de uso. Los filtros funcionan en frontend y no requieren backend.</p>
+            </div>
+            <div class="card controls-card">
+              <strong id="artifactCount">10 artefactos visibles</strong>
+              <p class="small-muted">Búsqueda rápida, filtros y enlaces copiables.</p>
+            </div>
+          </div>
+          <div class="card controls-card">
+            <div class="controls-row">
+              <label class="search-box" for="artifactSearch"><span>🔎</span><input id="artifactSearch" type="search" placeholder="Buscar por nombre, categoría, CMO, DEFT-AI o descripción" /></label>
+              <div class="filter-group" id="artifactFilters"></div>
+            </div>
+          </div>
+          <div class="artifacts-grid" id="artifactsGrid"></div>
         </div>
+      </section>
 
-        <!-- Recursos Tab -->
-        <div id="recursos-tab" class="tab-content">
-            <div class="section">
-                <h2 class="section-title">🌐 Enlaces MAPEX-SEFH</h2>
-                <div class="quick-access">
-                    <a href="https://www.sefh.es/mapex/" target="_blank" class="quick-card">
-                        <div class="quick-card-title">🏠 Web MAPEX</div>
-                        <div class="quick-card-desc">Portal principal del proyecto MAPEX</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                    <a href="https://www.sefh.es/mapex/documentacion.php" target="_blank" class="quick-card">
-                        <div class="quick-card-title">📄 Documentación MAPEX</div>
-                        <div class="quick-card-desc">Guías CMO, telefarmacia, Q-PEX, PROM/PREM y más</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                    <a href="https://www.sefh.es/mapex/q-pex.php" target="_blank" class="quick-card">
-                        <div class="quick-card-title">⚖️ Certificación Q-PEX</div>
-                        <div class="quick-card-desc">Norma de calidad para unidades de pacientes externos</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                    <a href="https://www.sefh.es/" target="_blank" class="quick-card">
-                        <div class="quick-card-title">🏥 SEFH</div>
-                        <div class="quick-card-desc">Sociedad Española de Farmacia Hospitalaria</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                </div>
+      <section class="section" id="cmo">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Módulos CMO</div>
+              <h2 class="section-title">Capacidad, Motivación y Oportunidad como arquitectura de intervención</h2>
+              <p class="section-lead">El modelo CMO organiza complejidad, adherencia, objetivos farmacoterapéuticos, modalidad asistencial y seguimiento de forma accionable para consulta externa.</p>
             </div>
-
-            <div class="section">
-                <h2 class="section-title">🤖 Herramientas Digitales</h2>
-                <div class="quick-access">
-                    <a href="https://claude.ai" target="_blank" class="quick-card">
-                        <div class="quick-card-title">💬 Claude</div>
-                        <div class="quick-card-desc">Asistente IA de Anthropic - Artifacts y análisis</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                    <a href="https://chatgpt.com" target="_blank" class="quick-card">
-                        <div class="quick-card-title">🤖 ChatGPT</div>
-                        <div class="quick-card-desc">GPTs personalizados - CMOpharma GPT</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                    <a href="https://gemini.google.com" target="_blank" class="quick-card">
-                        <div class="quick-card-title">✨ Gemini</div>
-                        <div class="quick-card-desc">IA de Google - Análisis y generación</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                    <a href="https://notebooklm.google.com" target="_blank" class="quick-card">
-                        <div class="quick-card-title">📓 NotebookLM</div>
-                        <div class="quick-card-desc">Google - Análisis de documentos y síntesis</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                    <a href="https://huggingface.co" target="_blank" class="quick-card">
-                        <div class="quick-card-title">🚀 HuggingFace</div>
-                        <div class="quick-card-desc">Plataforma ML - Hosting de CMO_DIGITAL y otros prototipos</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                    <a href="https://www.napkin.ai" target="_blank" class="quick-card">
-                        <div class="quick-card-title">🎨 Napkin</div>
-                        <div class="quick-card-desc">Visualizaciones y diagramas automáticos</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                    <a href="https://github.com" target="_blank" class="quick-card">
-                        <div class="quick-card-title">💻 GitHub</div>
-                        <div class="quick-card-desc">Control de versiones y colaboración en código</div>
-                        <span class="quick-card-btn">Abrir →</span>
-                    </a>
-                </div>
+            <div class="card safety-card">
+              <strong>🤖 Conexión con IA</strong>
+              <p>La inteligencia artificial debe ayudar a identificar complejidad, orientar intervenciones y generar feedback, pero sin sustituir el juicio profesional del farmacéutico de hospital.</p>
             </div>
-
-            <!-- DEFT-AI Complete Guide -->
-            <div class="section" id="deft-guide" style="background: linear-gradient(135deg, #f0f4ff 0%, #fef3c7 100%); border: 3px solid #3b82f6;">
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <div style="font-size: 4rem; margin-bottom: 1rem;">📖</div>
-                    <h2 style="font-size: 2rem; font-weight: bold; color: #1e40af; margin-bottom: 0.5rem;">
-                        Guía DEFT-AI: Aplicación Práctica en Consulta
-                    </h2>
-                    <p style="color: #1e3a8a; max-width: 800px; margin: 0 auto;">
-                        Modelo operativo de integración segura de IA en atención farmacéutica ambulatoria
-                    </p>
-                </div>
-
-                <!-- Introducción -->
-                <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem; font-size: 1.25rem;">¿Qué es DEFT-AI?</h3>
-                    <p style="line-height: 1.6; color: #374151; margin-bottom: 1rem;">
-                        DEFT-AI es un marco conceptual que adapta el modelo educativo DEFT (Diagnosis, Evidence, Feedback, Teaching) 
-                        al ámbito asistencial CMO-MAPEX, añadiendo la <strong>IA como habilitadora</strong> de los procesos. 
-                        Permite integrar herramientas de inteligencia artificial de forma <strong>segura, ética y basada en evidencia</strong> 
-                        en las consultas externas de farmacia hospitalaria.
-                    </p>
-                    <p style="line-height: 1.6; color: #374151;">
-                        <strong>Objetivo:</strong> Optimizar la atención farmacéutica manteniendo al farmacéutico en el centro de la decisión clínica, 
-                        usando IA para aumentar capacidades, no para sustituir criterio profesional.
-                    </p>
-                </div>
-
-                <!-- Los 5 Componentes (Tabla Práctica) -->
-                <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem; font-size: 1.25rem;">Los 5 Componentes DEFT-AI</h3>
-                    
-                    <div style="overflow-x: auto;">
-                        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-                            <thead>
-                                <tr style="background: #f3f4f6;">
-                                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #d1d5db;">Componente</th>
-                                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #d1d5db;">Qué significa</th>
-                                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #d1d5db;">Ejemplo en consulta</th>
-                                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #d1d5db;">Herramientas SIPF</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="border-bottom: 1px solid #e5e7eb;">
-                                    <td style="padding: 0.75rem;"><strong style="color: #3b82f6;">🔍 D-Diagnosis</strong></td>
-                                    <td style="padding: 0.75rem;">Evaluación continua de complejidad clínica del paciente</td>
-                                    <td style="padding: 0.75rem;">Estratificar paciente antes de consulta para adaptar tiempo/recursos</td>
-                                    <td style="padding: 0.75rem;">Hub Estratificación, Detector Cascadas, MRCI</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid #e5e7eb;">
-                                    <td style="padding: 0.75rem;"><strong style="color: #8b5cf6;">📚 E-Evidence</strong></td>
-                                    <td style="padding: 0.75rem;">Base de evidencia científica que sostiene las intervenciones</td>
-                                    <td style="padding: 0.75rem;">Consultar guías CMO patología-específicas validadas SEFH</td>
-                                    <td style="padding: 0.75rem;">CMOpharma GPT (19 PDFs), Documentación MAPEX</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid #e5e7eb;">
-                                    <td style="padding: 0.75rem;"><strong style="color: #10b981;">💬 F-Feedback</strong></td>
-                                    <td style="padding: 0.75rem;">Retroalimentación personalizada longitudinal</td>
-                                    <td style="padding: 0.75rem;">Seguimiento evolución paciente y ajuste intervenciones</td>
-                                    <td style="padding: 0.75rem;">Análisis EM, (Futuro: PROM/PREM)</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid #e5e7eb;">
-                                    <td style="padding: 0.75rem;"><strong style="color: #f59e0b;">🎓 T-Teaching</strong></td>
-                                    <td style="padding: 0.75rem;">Alfabetización digital de pacientes y profesionales</td>
-                                    <td style="padding: 0.75rem;">Enseñar a pacientes a usar recursos digitales, formar residentes en IA</td>
-                                    <td style="padding: 0.75rem;">CMO_DIGITAL, Análisis EM</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 0.75rem;"><strong style="color: #ec4899;">🤖 AI-Habilitadora</strong></td>
-                                    <td style="padding: 0.75rem;">IA como herramienta que potencia los 4 componentes anteriores</td>
-                                    <td style="padding: 0.75rem;">Automatizar priorización, generar planes CMO personalizados</td>
-                                    <td style="padding: 0.75rem;">CMOpharma GPT, Detector Cascadas, todos los artifacts</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Casos de Uso Prácticos -->
-                <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem; font-size: 1.25rem;">📋 Casos de Uso Prácticos</h3>
-                    
-                    <!-- Caso 1 -->
-                    <div style="background: #f9fafb; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; border-left: 4px solid #3b82f6;">
-                        <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-weight: 600;">ESCENARIO 1: Paciente nuevo con VIH</h4>
-                        <div style="font-size: 0.9rem; color: #4b5563; line-height: 1.6;">
-                            <p style="margin: 0.5rem 0;"><strong>🔍 D:</strong> Estratificar con Hub (nivel 1/2/3 según escala VIH)</p>
-                            <p style="margin: 0.5rem 0;"><strong>📚 E:</strong> Consultar guía CMO-VIH (en GPT) para criterios específicos</p>
-                            <p style="margin: 0.5rem 0;"><strong>🤖 AI:</strong> Usar CMOpharma GPT para generar plan personalizado C-M-O</p>
-                            <p style="margin: 0.5rem 0;"><strong>🎓 T:</strong> Explicar plan al paciente con lenguaje comprensible, enseñar app adherencia</p>
-                            <p style="margin: 0.5rem 0;"><strong>💬 F:</strong> Programar seguimiento telefarmacia según nivel complejidad</p>
-                        </div>
-                    </div>
-
-                    <!-- Caso 2 -->
-                    <div style="background: #f9fafb; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; border-left: 4px solid #10b981;">
-                        <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-weight: 600;">ESCENARIO 2: Sesión formativa residentes sobre EM</h4>
-                        <div style="font-size: 0.9rem; color: #4b5563; line-height: 1.6;">
-                            <p style="margin: 0.5rem 0;"><strong>🎓 T:</strong> Explicar técnicas entrevista motivacional, mostrar CMO_DIGITAL</p>
-                            <p style="margin: 0.5rem 0;"><strong>🤖 AI:</strong> Práctica generando prompts en CMO_DIGITAL en tiempo real</p>
-                            <p style="margin: 0.5rem 0;"><strong>💬 F:</strong> Residentes graban sus entrevistas y las analizan con Artifact EM</p>
-                            <p style="margin: 0.5rem 0;"><strong>📚 E:</strong> Discutir bibliografía EM disponible en MAPEX</p>
-                            <p style="margin: 0.5rem 0;"><strong>🔍 D:</strong> Evaluar nivel competencial alcanzado por cada residente</p>
-                        </div>
-                    </div>
-
-                    <!-- Caso 3 -->
-                    <div style="background: #f9fafb; padding: 1rem; border-radius: 6px; border-left: 4px solid #f59e0b;">
-                        <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-weight: 600;">ESCENARIO 3: Proyecto investigación cascadas prescriptivas</h4>
-                        <div style="font-size: 0.9rem; color: #4b5563; line-height: 1.6;">
-                            <p style="margin: 0.5rem 0;"><strong>🔍 D:</strong> Identificar población diana con criterios inclusión</p>
-                            <p style="margin: 0.5rem 0;"><strong>🤖 AI:</strong> Usar Detector Cascadas para screening automático en cohorte</p>
-                            <p style="margin: 0.5rem 0;"><strong>📚 E:</strong> Validar casos detectados con bibliografía cascadas conocidas</p>
-                            <p style="margin: 0.5rem 0;"><strong>💬 F:</strong> Intervenir en casos positivos y medir resultados longitudinales</p>
-                            <p style="margin: 0.5rem 0;"><strong>🎓 T:</strong> Difundir hallazgos en sesiones clínicas del servicio</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mapa de Artefactos por Componente -->
-                <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem; font-size: 1.25rem;">🗺️ Mapa de Artefactos por Componente DEFT-AI</h3>
-                    
-                    <div style="display: grid; gap: 1rem;">
-                        <div style="border-left: 4px solid #3b82f6; padding: 0.75rem; background: #f9fafb; border-radius: 4px;">
-                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">🔍 D-Diagnosis</div>
-                            <div style="font-size: 0.9rem; color: #4b5563;">
-                                → Hub de Estratificación<br>
-                                → STRATA-CMO (sistema integrado VIH)<br>
-                                → Detector Cascadas Terapéuticas<br>
-                                → Calculadora MRCI-MRCIA<br>
-                                → Evidence Gap Radar<br>
-                                → CMOpharma GPT (evaluación complejidad)
-                            </div>
-                        </div>
-
-                        <div style="border-left: 4px solid #8b5cf6; padding: 0.75rem; background: #f9fafb; border-radius: 4px;">
-                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">📚 E-Evidence</div>
-                            <div style="font-size: 0.9rem; color: #4b5563;">
-                                → CMOpharma GPT (19 PDFs MAPEX validados)<br>
-                                → STRATA-CMO (guía CMO-VIH integrada)<br>
-                                → Evidence Gap Radar (búsqueda evidencia)<br>
-                                → Documentación MAPEX (web SEFH)<br>
-                                → Paper DEFT-AI (marco conceptual)<br>
-                                → Guías CMO patología-específicas
-                            </div>
-                        </div>
-
-                        <div style="border-left: 4px solid #10b981; padding: 0.75rem; background: #f9fafb; border-radius: 4px;">
-                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">💬 F-Feedback</div>
-                            <div style="font-size: 0.9rem; color: #4b5563;">
-                                → STRATA-CMO (seguimiento longitudinal VIH)<br>
-                                → Análisis Entrevista Motivacional<br>
-                                → CMOpharma GPT (feedback intervenciones)<br>
-                                → (Futuro: Sistema PROM/PREM)<br>
-                                → (Futuro: Dashboard seguimiento longitudinal)
-                            </div>
-                        </div>
-
-                        <div style="border-left: 4px solid #f59e0b; padding: 0.75rem; background: #f9fafb; border-radius: 4px;">
-                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">🎓 T-Teaching</div>
-                            <div style="font-size: 0.9rem; color: #4b5563;">
-                                → STRATA-CMO (educación paciente VIH)<br>
-                                → CMO_DIGITAL Prompt Builder (alfabetización IA)<br>
-                                → Análisis Entrevista Motivacional (formación competencias)<br>
-                                → Rxplain (educación paciente sobre tratamiento)<br>
-                                → CMOpharma GPT (docencia casos clínicos)<br>
-                                → Guías MAPEX (material formativo)
-                            </div>
-                        </div>
-
-                        <div style="border-left: 4px solid #ec4899; padding: 0.75rem; background: #f9fafb; border-radius: 4px;">
-                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">🤖 AI-Habilitadora</div>
-                            <div style="font-size: 0.9rem; color: #4b5563;">
-                                → CMOpharma GPT (motor central IA)<br>
-                                → STRATA-CMO (sistema completo IA VIH)<br>
-                                → Detector Cascadas (ML/LLM detección)<br>
-                                → Todos los Artifacts Claude (IA generativa)<br>
-                                → GitHub Pages y repositorios GitHub (despliegue herramientas web)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Checklist Aplicación Diaria -->
-                <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem; font-size: 1.25rem;">✅ Checklist Aplicación Diaria</h3>
-                    
-                    <div style="font-size: 0.9rem; line-height: 1.8; color: #374151;">
-                        <div style="background: #dbeafe; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-                            <strong style="color: #1e40af;">📅 ANTES DE CONSULTA:</strong><br>
-                            ☐ Revisar lista de pacientes del día<br>
-                            ☐ Estratificar pacientes nuevos con Hub (nivel 1/2/3)<br>
-                            ☐ Calcular MRCI si complejidad farmacoterapéutica alta<br>
-                            ☐ Identificar casos potenciales cascadas (si proyecto activo)
-                        </div>
-
-                        <div style="background: #d1fae5; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-                            <strong style="color: #065f46;">👤 DURANTE CONSULTA:</strong><br>
-                            ☐ Usar CMOpharma GPT para generar plan CMO personalizado<br>
-                            ☐ Consultar guía patología-específica si dudas (E-Evidence)<br>
-                            ☐ Aplicar técnicas entrevista motivacional (componente T)<br>
-                            ☐ Explicar plan al paciente en lenguaje comprensible<br>
-                            ☐ Valorar alfabetización digital paciente (apps, telefarmacia)
-                        </div>
-
-                        <div style="background: #fef3c7; padding: 1rem; border-radius: 6px;">
-                            <strong style="color: #92400e;">📝 DESPUÉS DE CONSULTA:</strong><br>
-                            ☐ Programar seguimiento (presencial/telefarmacia según nivel)<br>
-                            ☐ Registrar datos si proyecto investigación<br>
-                            ☐ Documentar intervenciones CMO realizadas<br>
-                            ☐ Si sesión formativa: analizar audios con Artifact EM
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Estado del Manuscrito -->
-                <div style="background: #fffbeb; border: 2px solid #f59e0b; padding: 1.5rem; border-radius: 8px;">
-                    <h3 style="color: #92400e; margin-bottom: 1rem; font-size: 1.25rem;">📊 Estado del Manuscrito DEFT-AI</h3>
-                    <div style="font-size: 0.9rem; color: #78350f; line-height: 1.8;">
-                        <p style="margin: 0.5rem 0;"><strong>Título:</strong> Adaptación del Modelo Educativo DEFT-AI al Marco Asistencial CMO-MAPEX para Integración Segura de IA en Consultas Externas de Farmacia Hospitalaria</p>
-                        <p style="margin: 0.5rem 0;"><strong>Autores:</strong> Ramón Morillo, Ana Maria Cordero Cruz, Yared Gonzalez Perez, Emilio Monte Boquet</p>
-                        <p style="margin: 0.5rem 0;"><strong>Fecha envío:</strong> Enero 2025</p>
-                        <p style="margin: 0.5rem 0;"><strong>Estado actual:</strong> <span style="background: #fef9c3; padding: 0.25rem 0.75rem; border-radius: 4px; font-weight: 600;">En revisión por pares</span></p>
-                        <p style="margin: 1rem 0 0 0; font-style: italic;">
-                            Este documento constituye el <strong>marco conceptual fundacional</strong> del ecosistema SIPF-CMO y 
-                            establece los criterios de calidad para la integración de herramientas IA en atención farmacéutica.
-                        </p>
-                    </div>
-                </div>
-            </div>
+          </div>
+          <div class="cmo-grid" id="cmoGrid"></div>
         </div>
+      </section>
+
+      <section class="section" id="deft-ai">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Marco DEFT-AI</div>
+              <h2 class="section-title">Una capa de seguridad, evidencia y aprendizaje para la IA clínica</h2>
+              <p class="section-lead">Diagnosis, Evidence, Feedback, Teaching e IA habilitadora conectan la herramienta digital con el juicio profesional, la evidencia y el aprendizaje continuo.</p>
+            </div>
+            <span class="badge badge-violet">Manuscrito DEFT-AI en revisión por pares · enviado enero 2025</span>
+          </div>
+          <div class="deft-wrap">
+            <div class="deft-grid" id="deftGrid"></div>
+            <aside class="flow-panel">
+              <h3>DEFT-AI en una consulta de farmacia hospitalaria</h3>
+              <div class="flow-steps">
+                <div class="flow-step">Diagnosticar la complejidad.</div>
+                <div class="flow-step">Consultar la evidencia.</div>
+                <div class="flow-step">Generar intervención CMO.</div>
+                <div class="flow-step">Explicar y formar.</div>
+                <div class="flow-step">Recibir feedback y reevaluar.</div>
+                <div class="flow-step">Usar IA como soporte, no como sustitución.</div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="uso-consulta">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Uso en consulta</div>
+              <h2 class="section-title">Checklist operativo para consulta externa</h2>
+              <p class="section-lead">Un flujo interactivo antes, durante y después de la consulta. El progreso se guarda solo en el navegador y puede reiniciarse para la demostración.</p>
+            </div>
+            <button class="reset-button" id="resetChecklist" type="button">Reiniciar checklist</button>
+          </div>
+          <div class="card checklist-card">
+            <div class="progress-line">
+              <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="checkProgressFill"></div></div>
+              <strong id="checkProgressText">0% completado</strong>
+            </div>
+            <div class="checklist-grid" id="checklistGrid"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="mapa-cmo-deft">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Mapa CMO-DEFT-AI</div>
+              <h2 class="section-title">La matriz diferencial para explicar el ecosistema</h2>
+              <p class="section-lead">Cruza las dimensiones CMO con los componentes DEFT-AI para mostrar dónde aporta valor cada herramienta y cómo se integra la IA responsable.</p>
+            </div>
+            <span class="badge badge-teal">Mapa conceptual para conferencia</span>
+          </div>
+          <div class="matrix-wrap"><table class="matrix" id="cmoDeftMatrix"></table></div>
+        </div>
+      </section>
+
+      <section class="section" id="recursos">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Recursos MAPEX y herramientas IA</div>
+              <h2 class="section-title">Enlaces estructurados para evidencia, docencia y soporte digital</h2>
+              <p class="section-lead">Todos los enlaces externos se abren en nueva pestaña con <code>noopener</code> para no romper la navegación de GitHub Pages.</p>
+            </div>
+          </div>
+          <h3>Recursos MAPEX-SEFH</h3>
+          <div class="resources-grid" id="mapexResources"></div>
+          <h3 style="margin-top: 2rem;">Herramientas digitales e IA</h3>
+          <div class="resources-grid" id="aiResources"></div>
+        </div>
+      </section>
+
+      <section class="section" id="dashboard">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Dashboard demostrativo</div>
+              <h2 class="section-title">Indicadores para una demo clínica, docente y de gestión</h2>
+              <p class="section-lead"><strong>Datos simulados para demostración.</strong> No se utilizan datos reales de pacientes ni información identificativa.</p>
+            </div>
+            <span class="badge badge-amber">Datos simulados para demostración</span>
+          </div>
+          <div class="dashboard-layout">
+            <div>
+              <div class="kpi-grid" id="kpiGrid"></div>
+              <div class="chart-card card" style="margin-top: 1rem;">
+                <h3>Distribución por finalidad</h3>
+                <div class="donut-wrap">
+                  <div class="donut" aria-label="Donut de distribución"></div>
+                  <div class="legend" id="purposeLegend"></div>
+                </div>
+              </div>
+              <div class="chart-card card" style="margin-top: 1rem;">
+                <h3>Matriz de cobertura CMO x DEFT-AI</h3>
+                <div class="bar-list" id="coverageBars"></div>
+              </div>
+            </div>
+            <aside class="chart-card card">
+              <h3>Estado de desarrollo</h3>
+              <div class="bar-list" id="stateBars"></div>
+              <h3 style="margin-top: 1.4rem;">Timeline del ecosistema</h3>
+              <div class="bar-list" id="timelineList"></div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="casos">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Clinical journeys</div>
+              <h2 class="section-title">Casos de uso para enseñar el valor en pantalla grande</h2>
+              <p class="section-lead">Escenarios narrativos preparados para conferencia: problema, herramienta, acción farmacéutica y resultado esperado.</p>
+            </div>
+          </div>
+          <div class="journey-grid" id="journeyGrid"></div>
+        </div>
+      </section>
+
+      <section class="section" id="privacidad">
+        <div class="container">
+          <div class="card safety-card">
+            <div class="section-header" style="margin-bottom: 0;">
+              <div>
+                <div class="section-kicker">Privacidad, seguridad y uso responsable</div>
+                <h2 class="section-title">IA como apoyo. Decisión final profesional.</h2>
+                <p class="section-lead">La plataforma se plantea como soporte a la atención farmacéutica y no como sustituto del juicio clínico del farmacéutico de hospital.</p>
+              </div>
+              <span class="badge badge-red">No introducir datos identificativos</span>
+            </div>
+            <ul class="safety-list" id="safetyList"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section hide-in-conference" id="proximos">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Próximos desarrollos</div>
+              <h2 class="section-title">Escalabilidad sin comprometer estabilidad antes de la conferencia</h2>
+              <p class="section-lead">Se prioriza una demo robusta en GitHub Pages. Los futuros módulos se muestran como roadmap conceptual, no como funcionalidades inestables.</p>
+            </div>
+          </div>
+          <div class="dev-grid" id="devGrid"></div>
+        </div>
+      </section>
+
+      <section class="section" id="narrativa">
+        <div class="container">
+          <div class="story-band">
+            <div class="section-header">
+              <div>
+                <div class="section-kicker">Motor narrativo para la conferencia</div>
+                <h2 class="section-title">De herramientas aisladas a un ecosistema inteligente de atención farmacéutica</h2>
+                <p class="section-lead">El valor de SIAF-CMO no reside solo en disponer de múltiples artefactos digitales, sino en integrarlos dentro de un marco común que conecta estratificación, intervención, formación, evidencia, seguimiento e inteligencia artificial responsable.</p>
+              </div>
+            </div>
+            <div class="story-grid" id="storyGrid"></div>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>SIPF-CMO Dashboard v1.0 • Sistema Integrado de Práctica Farmacéutica</p>
-            <p>Modelo CMO-MAPEX-DEFT-AI • 10 artefactos registrados</p>
-            <p style="margin-top: 1rem;">
-                Creado por <strong>Ramón Morillo</strong> • Febrero 2026
-            </p>
-            <p style="margin-top: 0.5rem; font-size: 0.75rem;">
-                📝 Próximo paso: Consolidar panel admin para gestión autónoma del ecosistema
-            </p>
-        </div>
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div><strong data-platform-name>SIAF-CMO</strong><br /><span data-platform-full>Sistema Inteligente de Atención Farmacéutica basado en CMO-MAPEX-DEFT-AI</span></div>
+        <div><span data-platform-author>Autoría: Ramón Morillo</span> · <span data-platform-date>Junio 2026</span></div>
+      </div>
     </footer>
+  </div>
 
-    <script>
-        // DATA
-        const artefactos = [
-            {
-                id: "CLI-C-001",
-                nombre: "Hub de Estratificación",
-                url: "https://claude.ai/public/artifacts/edc0928d-29a8-475c-9e73-11e4fb5e6578",
-                modulo: "2.1",
-                moduloNombre: "Herramientas Clínicas - Evaluación",
-                cmo: ["C", "O"],
-                deftai: ["D"],
-                ambito: ["Clínica"],
-                nivel: "Operativo",
-                uso: "DIARIO",
-                madurez: 80,
-                tipo: "Artifact Claude",
-                descripcion: "Todas las herramientas de estratificación CMO publicadas disponibles en un punto único",
-                destacado: true
-            },
-            {
-                id: "CLI-CMO-010",
-                nombre: "STRATA-CMO: HIV Pharmaceutical Care Stratification Tool",
-                url: "https://claude.ai/public/artifacts/9ec1a3df-7482-4894-9a2c-cf1e3c13b0a7",
-                modulo: "2.1",
-                moduloNombre: "Herramientas Clínicas - Evaluación",
-                cmo: ["C", "M", "O"],
-                deftai: ["D", "E", "F", "T", "AI"],
-                ambito: ["Clínica"],
-                nivel: "Operativo",
-                uso: "DIARIO",
-                madurez: 75,
-                tipo: "Artifact Claude",
-                descripcion: "Sistema integrado de valoración de pacientes VIH",
-                destacado: true,
-                nota: "Sistema completo que integra los 5 componentes DEFT-AI para VIH"
-            },
-            {
-                id: "CLI-AI-002",
-                nombre: "CMOpharma GPT",
-                url: "https://chatgpt.com/g/g-680e5ee42da0819185d9ffec4ce6fd2c-cmopharma-asistente",
-                modulo: "2.4",
-                moduloNombre: "Herramientas Clínicas - Asistentes IA",
-                cmo: ["C", "M", "O"],
-                deftai: ["D", "E", "F", "T", "AI"],
-                ambito: ["Clínica", "Docencia"],
-                nivel: "Operativo-Táctico",
-                uso: "DIARIO",
-                madurez: 85,
-                tipo: "GPT Custom",
-                descripcion: "Asistente clínico IA para planificación intervenciones CMO",
-                destacado: true,
-                nota: "🔥 HERRAMIENTA CENTRAL - Único artefacto con 5 componentes DEFT-AI completos"
-            },
-            {
-                id: "INV-AI-003",
-                nombre: "Detector Cascadas Terapéuticas",
-                url: "https://ramonmorillo.github.io/hiv-prescribing-cascade-auditor/",
-                modulo: "4.2",
-                moduloNombre: "Investigación - Recogida datos",
-                cmo: ["C"],
-                deftai: ["D", "AI"],
-                ambito: ["Investigación"],
-                nivel: "Táctico",
-                uso: "Continuo (proyectos)",
-                madurez: 60,
-                tipo: "Web GitHub Pages (local-first)",
-                descripcion: "Auditor de cascadas de prescripción en VIH con enfoque local-first",
-                destacado: true,
-                pendiente: "Validación externa + publicación"
-            },
-            {
-                id: "INV-O-004",
-                nombre: "Calculadora MRCI-MRCIA",
-                url: "https://claude.ai/public/artifacts/f75cbb9c-0680-40d5-80d9-8aac677d9adb",
-                modulo: "4.2",
-                moduloNombre: "Investigación - Recogida datos",
-                cmo: ["C"],
-                deftai: ["D"],
-                ambito: ["Investigación", "Docencia"],
-                nivel: "Táctico",
-                uso: "Por proyectos",
-                madurez: 55,
-                tipo: "Artifact Claude",
-                descripcion: "Calcula MRCI total y componentes A/B/C (versión original)",
-                sinergia: "Integrable en Hub Estratificación"
-            },
-            {
-                id: "INV-CMO-009",
-                nombre: "Evidence Gap Radar",
-                url: "https://ramonmorillo.github.io/evidencegap-radar/",
-                modulo: "4.3",
-                moduloNombre: "Investigación - Análisis evidencia",
-                cmo: ["C", "M", "O"],
-                deftai: ["D", "E"],
-                ambito: ["Investigación"],
-                nivel: "Táctico",
-                uso: "Ocasional",
-                madurez: 70,
-                tipo: "Web GitHub Pages",
-                descripcion: "Búsqueda evidencia para investigación",
-                destacado: false
-            },
-            {
-                id: "DOC-C-005",
-                nombre: "CMO_DIGITAL Prompt Builder",
-                url: "https://huggingface.co/spaces/ramonmorillo/CMO_DIGITAL",
-                modulo: "3.3",
-                moduloNombre: "Docencia - Prompts pedagógicos",
-                cmo: ["M"],
-                deftai: ["T", "AI"],
-                ambito: ["Docencia"],
-                nivel: "Táctico",
-                uso: "Ocasional (2-3/año)",
-                madurez: 65,
-                tipo: "App HuggingFace",
-                descripcion: "Enseña a construir prompts IA con lógica CMO (sin API)",
-                singularidad: "ÚNICA herramienta que enseña usar IA con CMO",
-                sinergia: "Con CMOpharma GPT (uno enseña, otro ejecuta)"
-            },
-            {
-                id: "DOC-M-006",
-                nombre: "Análisis Entrevista Motivacional",
-                url: "https://claude.ai/public/artifacts/9d9747f4-1b3c-4db3-9459-3eb95ebc8f69",
-                modulo: "3.2",
-                moduloNombre: "Docencia - Métodos docentes",
-                cmo: ["M"],
-                deftai: ["F", "T"],
-                ambito: ["Docencia"],
-                nivel: "Táctico",
-                uso: "2-3 sesiones/año",
-                madurez: 60,
-                tipo: "Artifact Claude",
-                descripcion: "Análisis automático audios EM con feedback pedagógico",
-                singularidad: "ÚNICO artifact competencias comunicativas"
-            },
-            {
-                id: "CLI-M-008",
-                nombre: "Rxplain",
-                url: "https://ramonmorillo.github.io/rxplain/",
-                modulo: "2.2",
-                moduloNombre: "Herramientas Clínicas - Protocolos intervención",
-                cmo: ["M"],
-                deftai: ["T", "AI"],
-                ambito: ["Clínica"],
-                nivel: "Operativo",
-                uso: "DIARIO",
-                madurez: 70,
-                tipo: "Web GitHub Pages",
-                descripcion: "Crea infografía adaptada al paciente sobre su tratamiento",
-                destacado: false
-            },
-            {
-                id: "TEO-E-001",
-                nombre: "Paper DEFT-AI adaptado CMO-MAPEX",
-                url: "#",
-                modulo: "1.1",
-                moduloNombre: "Núcleo Conceptual",
-                cmo: ["C", "M", "O"],
-                deftai: ["E"],
-                ambito: ["Todos"],
-                nivel: "Estratégico",
-                uso: "Referencia",
-                madurez: 95,
-                tipo: "Documento académico",
-                descripcion: "Manuscrito enviado - Marco integración IA en CMO-MAPEX",
-                nota: "Documento fundacional - Criterio calidad artefactos IA"
-            }
-        ];
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Volver arriba">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite">Enlace copiado</div>
 
-        const modulos = [
-            { id: 1, nombre: "Núcleo Conceptual", count: 1, icon: "🧠" },
-            { id: 2, nombre: "Herramientas Clínicas", count: 4, icon: "🏥" },
-            { id: 3, nombre: "Recursos Docentes", count: 2, icon: "📚" },
-            { id: 4, nombre: "Investigación", count: 3, icon: "🔬" },
-            { id: 5, nombre: "Gestión", count: 0, icon: "📊", gap: true },
-            { id: 6, nombre: "Gobernanza", count: 1, icon: "⚖️" }
-        ];
+  <script>
+    const PLATFORM = {
+      shortName: "SIAF-CMO",
+      legacyName: "SIPF-CMO",
+      fullName: "Sistema Inteligente de Atención Farmacéutica basado en CMO-MAPEX-DEFT-AI",
+      subtitle: "Sistema Inteligente de Atención Farmacéutica basado en CMO-MAPEX-DEFT-AI",
+      version: "v2.0 conferencia",
+      authorship: "Autoría: Ramón Morillo",
+      date: "Junio 2026",
+      tagline: "Un ecosistema digital para estratificar, priorizar, intervenir, formar e investigar en consultas externas de farmacia hospitalaria.",
+      safetyMotto: "IA como apoyo. Decisión final profesional."
+    };
 
-        let filtroActivo = 'todos';
+    const navItems = [
+      ["inicio", "Inicio"],
+      ["ecosistema", "Ecosistema digital"],
+      ["cmo", "Módulos CMO"],
+      ["deft-ai", "Marco DEFT-AI"],
+      ["uso-consulta", "Uso en consulta"],
+      ["recursos", "Recursos MAPEX"],
+      ["dashboard", "Dashboard"],
+      ["proximos", "Próximos desarrollos"]
+    ];
 
-        // Toggle DEFT-AI widget
-        function toggleDeftAI() {
-            const content = document.getElementById('deft-content');
-            const icon = document.getElementById('deft-toggle-icon');
-            
-            if (content.style.display === 'none') {
-                content.style.display = 'block';
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                content.style.display = 'none';
-                icon.style.transform = 'rotate(0deg)';
-            }
+    const artifacts = [
+      { id: "CLI-C-001", icon: "🧭", name: "Hub de Estratificación", url: "https://claude.ai/public/artifacts/edc0928d-29a8-475c-9e73-11e4fb5e6578", module: "2.1", moduleName: "Herramientas Clínicas - Evaluación", category: "Estratificación y priorización", cmo: ["Capacidad", "Oportunidad"], deft: ["Diagnosis"], scope: ["Clínica"], level: "Operativo", use: "diario", state: "operativo", maturity: 80, type: "Artifact Claude", description: "Todas las herramientas de estratificación CMO publicadas disponibles en un punto único.", featured: true, daily: true, mapex: true },
+      { id: "CLI-CMO-010", icon: "🧬", name: "STRATA-CMO: HIV Pharmaceutical Care Stratification Tool", url: "https://claude.ai/public/artifacts/9ec1a3df-7482-4894-9a2c-cf1e3c13b0a7", module: "2.1", moduleName: "Herramientas Clínicas - Evaluación", category: "Estratificación y priorización", cmo: ["Capacidad", "Motivación", "Oportunidad"], deft: ["Diagnosis", "Evidence", "Feedback", "Teaching", "AI habilitadora"], scope: ["Clínica"], level: "Operativo", use: "diario", state: "operativo", maturity: 75, type: "Artifact Claude", description: "Sistema integrado de valoración de pacientes VIH con visión CMO y continuidad asistencial.", featured: true, daily: true, ai: true, mapex: true, note: "Sistema completo que integra los 5 componentes DEFT-AI para VIH." },
+      { id: "CLI-AI-002", icon: "🤖", name: "CMOpharma GPT", url: "https://chatgpt.com/g/g-680e5ee42da0819185d9ffec4ce6fd2c-cmopharma-asistente", module: "2.4", moduleName: "Herramientas Clínicas - Asistentes IA", category: "IA generativa", cmo: ["Capacidad", "Motivación", "Oportunidad"], deft: ["Diagnosis", "Evidence", "Feedback", "Teaching", "AI habilitadora"], scope: ["Clínica", "Docencia"], level: "Operativo-Táctico", use: "diario", state: "operativo", maturity: 85, type: "GPT Custom", description: "Asistente clínico IA para planificación de intervenciones CMO supervisadas por el farmacéutico de hospital.", featured: true, daily: true, ai: true, note: "Herramienta central con cobertura completa DEFT-AI." },
+      { id: "INV-AI-003", icon: "🧪", name: "Detector Cascadas Terapéuticas", url: "https://ramonmorillo.github.io/hiv-prescribing-cascade-auditor/", module: "4.2", moduleName: "Investigación - Recogida datos", category: "Investigación", cmo: ["Capacidad"], deft: ["Diagnosis", "AI habilitadora"], scope: ["Investigación"], level: "Táctico", use: "investigador", state: "prototipo", maturity: 60, type: "Web GitHub Pages local-first", description: "Auditor de cascadas de prescripción en VIH con enfoque local-first y validación farmacéutica.", featured: true, ai: true, note: "Pendiente de validación externa y publicación." },
+      { id: "INV-O-004", icon: "🧮", name: "Calculadora MRCI-MRCIA", url: "https://claude.ai/public/artifacts/f75cbb9c-0680-40d5-80d9-8aac677d9adb", module: "4.2", moduleName: "Investigación - Recogida datos", category: "Evaluación y resultados", cmo: ["Capacidad"], deft: ["Diagnosis"], scope: ["Investigación", "Docencia"], level: "Táctico", use: "investigador", state: "operativo", maturity: 55, type: "Artifact Claude", description: "Calcula MRCI total y componentes A/B/C para estimar complejidad farmacoterapéutica.", featured: false, note: "Integrable en Hub de Estratificación." },
+      { id: "INV-CMO-009", icon: "📡", name: "Evidence Gap Radar", url: "https://ramonmorillo.github.io/evidencegap-radar/", module: "4.3", moduleName: "Investigación - Análisis evidencia", category: "Investigación", cmo: ["Capacidad", "Motivación", "Oportunidad"], deft: ["Diagnosis", "Evidence"], scope: ["Investigación"], level: "Táctico", use: "ocasional", state: "operativo", maturity: 70, type: "Web GitHub Pages", description: "Búsqueda y visualización de gaps de evidencia para investigación y priorización de preguntas.", featured: false },
+      { id: "DOC-C-005", icon: "🧠", name: "CMO_DIGITAL Prompt Builder", url: "https://huggingface.co/spaces/ramonmorillo/CMO_DIGITAL", module: "3.3", moduleName: "Docencia - Prompts pedagógicos", category: "Docencia y formación", cmo: ["Motivación"], deft: ["Teaching", "AI habilitadora"], scope: ["Docencia"], level: "Táctico", use: "docente", state: "operativo", maturity: 65, type: "App HuggingFace", description: "Enseña a construir prompts IA con lógica CMO sin necesidad de API.", featured: false, ai: true, note: "Complementa a CMOpharma GPT: uno enseña, otro ejecuta." },
+      { id: "DOC-M-006", icon: "🎧", name: "Análisis Entrevista Motivacional", url: "https://claude.ai/public/artifacts/9d9747f4-1b3c-4db3-9459-3eb95ebc8f69", module: "3.2", moduleName: "Docencia - Métodos docentes", category: "Docencia y formación", cmo: ["Motivación"], deft: ["Feedback", "Teaching"], scope: ["Docencia"], level: "Táctico", use: "docente", state: "operativo", maturity: 60, type: "Artifact Claude", description: "Análisis de audios de entrevista motivacional con feedback pedagógico para competencias comunicativas.", featured: false, note: "Artifact específico para entrenamiento de comunicación clínica." },
+      { id: "CLI-M-008", icon: "📝", name: "Rxplain", url: "https://ramonmorillo.github.io/rxplain/", module: "2.2", moduleName: "Herramientas Clínicas - Protocolos intervención", category: "Apoyo a la decisión clínica", cmo: ["Motivación"], deft: ["Teaching", "AI habilitadora"], scope: ["Clínica"], level: "Operativo", use: "diario", state: "operativo", maturity: 70, type: "Web GitHub Pages", description: "Crea infografías adaptadas al paciente para mejorar comprensión del tratamiento y objetivos farmacoterapéuticos.", featured: false, daily: true, ai: true },
+      { id: "TEO-E-001", icon: "📘", name: "Paper DEFT-AI adaptado CMO-MAPEX", url: "#deft-ai", module: "1.1", moduleName: "Núcleo Conceptual", category: "Apoyo a la decisión clínica", cmo: ["Capacidad", "Motivación", "Oportunidad"], deft: ["Evidence"], scope: ["Clínica", "Docencia", "Investigación"], level: "Estratégico", use: "ocasional", state: "en revisión", maturity: 95, type: "Documento académico", description: "Manuscrito enviado que define el marco de integración segura de IA en CMO-MAPEX.", featured: false, mapex: true, note: "Documento fundacional para criterios de calidad de artefactos IA." }
+    ];
+
+    const cmoDimensions = [
+      { letter: "C", icon: "🧩", title: "Capacidad", accent: "#0f766e", text: "Complejidad clínica, farmacoterapéutica, funcional, cognitiva y sociosanitaria.", examples: ["Estratificación inicial y longitudinal.", "Priorización por complejidad y fragilidad.", "Detección de alertas farmacoterapéuticas y sociosanitarias."] },
+      { letter: "M", icon: "💬", title: "Motivación", accent: "#6d28d9", text: "Adherencia, creencias, barreras, activación, objetivos farmacoterapéuticos y preferencias del paciente.", examples: ["Entrevista motivacional y objetivos compartidos.", "Feedback sobre adherencia y barreras.", "Material educativo adaptado y comprensible."] },
+      { letter: "O", icon: "🌐", title: "Oportunidad", accent: "#f59e0b", text: "Accesibilidad, modalidad asistencial, telefarmacia, competencias digitales, recursos disponibles y continuidad asistencial.", examples: ["Selección de modalidad presencial, telefónica o digital.", "Evaluación de alfabetización digital.", "Continuidad asistencial y coordinación de seguimiento."] }
+    ];
+
+    const deftComponents = [
+      { key: "D", name: "Diagnosis", icon: "🔍", accent: "#2563eb", definition: "Evaluación continua de complejidad, necesidades y riesgos.", utility: "Ordena la priorización en consulta externa.", example: "Paciente VIH nuevo: estratificación, señales de complejidad y modalidad de seguimiento.", tools: "Hub de Estratificación, STRATA-CMO, Detector Cascadas, MRCI-MRCIA.", safety: "Toda alerta requiere validación farmacéutica." },
+      { key: "E", name: "Evidence", icon: "📚", accent: "#7c3aed", definition: "Conexión con evidencia científica, guías MAPEX y marco CMO.", utility: "Reduce variabilidad y sostiene decisiones documentadas.", example: "Consulta de evidencia ante una intervención compleja o gap de investigación.", tools: "Evidence Gap Radar, Paper DEFT-AI, recursos MAPEX-SEFH.", safety: "Verificar fuentes y actualidad de la evidencia." },
+      { key: "F", name: "Feedback", icon: "🔁", accent: "#0d9488", definition: "Retroalimentación personalizada para intervención, aprendizaje y seguimiento.", utility: "Permite reevaluar objetivos farmacoterapéuticos y adherencia.", example: "Feedback al residente tras entrevista motivacional o al paciente tras seguimiento.", tools: "STRATA-CMO, CMOpharma GPT, Análisis Entrevista Motivacional.", safety: "No automatizar conclusiones sin revisión profesional." },
+      { key: "T", name: "Teaching", icon: "🎓", accent: "#f59e0b", definition: "Educación del paciente, residentes y profesionales con lenguaje adaptado.", utility: "Mejora comprensión del tratamiento y competencias clínicas.", example: "Explicar un plan CMO con infografía y prompts docentes.", tools: "Rxplain, CMO_DIGITAL, CMOpharma GPT, guías MAPEX.", safety: "Adaptar el mensaje a alfabetización sanitaria y digital." },
+      { key: "AI", name: "AI habilitadora", icon: "🤖", accent: "#db2777", definition: "IA como capa transversal que optimiza flujos y síntesis.", utility: "Aumenta capacidad de análisis sin desplazar la decisión profesional.", example: "Borrador de intervención CMO que el farmacéutico valida y ajusta.", tools: "CMOpharma GPT, STRATA-CMO, Detector Cascadas, artifacts Claude.", safety: "No introducir datos identificativos y verificar recomendaciones." }
+    ];
+
+    const resources = {
+      mapex: [
+        { icon: "🏠", title: "Web MAPEX", desc: "Portal principal del proyecto MAPEX.", url: "https://www.sefh.es/mapex/" },
+        { icon: "📄", title: "Documentación MAPEX", desc: "Guías CMO, telefarmacia, Q-PEX, PROM/PREM y más.", url: "https://www.sefh.es/mapex/documentacion.php" },
+        { icon: "⚖️", title: "Certificación Q-PEX", desc: "Norma de calidad para unidades de pacientes externos.", url: "https://www.sefh.es/mapex/q-pex.php" },
+        { icon: "🏥", title: "SEFH", desc: "Sociedad Española de Farmacia Hospitalaria.", url: "https://www.sefh.es/" }
+      ],
+      ai: [
+        { icon: "💬", title: "Claude", desc: "Artifacts y análisis asistido.", url: "https://claude.ai" },
+        { icon: "🤖", title: "ChatGPT", desc: "GPTs personalizados como CMOpharma GPT.", url: "https://chatgpt.com" },
+        { icon: "✨", title: "Gemini", desc: "IA de Google para análisis y generación.", url: "https://gemini.google.com" },
+        { icon: "📓", title: "NotebookLM", desc: "Síntesis de documentos y notebooks de evidencia.", url: "https://notebooklm.google.com" },
+        { icon: "🚀", title: "HuggingFace", desc: "Hosting de prototipos como CMO_DIGITAL.", url: "https://huggingface.co" },
+        { icon: "🎨", title: "Napkin", desc: "Diagramas automáticos para docencia y presentación.", url: "https://www.napkin.ai" },
+        { icon: "💻", title: "GitHub", desc: "Control de versiones y despliegues en GitHub Pages.", url: "https://github.com" }
+      ]
+    };
+
+    const checklist = [
+      { title: "Antes de la consulta", icon: "📅", items: ["Revisar agenda.", "Identificar pacientes complejos.", "Estratificar si procede.", "Revisar farmacoterapia.", "Detectar alertas."] },
+      { title: "Durante la consulta", icon: "👤", items: ["Aplicar entrevista farmacoterapéutica.", "Valorar Capacidad, Motivación y Oportunidad.", "Consultar recursos CMO.", "Generar plan individualizado.", "Acordar objetivos farmacoterapéuticos."] },
+      { title: "Después de la consulta", icon: "📝", items: ["Registrar intervención.", "Programar seguimiento.", "Evaluar resultados.", "Alimentar proyectos de investigación.", "Revisar indicadores."] }
+    ];
+
+    const matrixExamples = {
+      Capacidad: ["Identificación de complejidad clínica, farmacoterapéutica y sociosanitaria.", "Guías y métricas para priorizar según complejidad.", "Feedback sobre evolución de riesgo y necesidades.", "Formación sobre señales de alerta y autocuidado.", "Soporte para síntesis de complejidad bajo supervisión."],
+      Motivación: ["Detección de barreras, creencias y activación del paciente.", "Evidencia sobre adherencia, entrevista motivacional y resultados.", "Retroalimentación personalizada sobre adherencia, barreras y objetivos farmacoterapéuticos.", "Material educativo adaptado al paciente y residentes.", "Borradores de intervención motivacional revisados por el farmacéutico."],
+      Oportunidad: ["Valoración de accesibilidad, modalidad asistencial y competencias digitales.", "Evidencia para seleccionar telefarmacia y seguimiento híbrido.", "Feedback sobre continuidad, citas, canales y recursos disponibles.", "Alfabetización digital y adaptación de telefarmacia según recursos del paciente.", "Apoyo para decidir canal y seguimiento sin reemplazar criterio profesional."]
+    };
+
+    const journeys = [
+      { title: "Escenario 1. Paciente nuevo en consulta externa", icon: "🆕", intro: "Primer contacto con necesidad de priorización segura.", steps: { Problema: "Estratificación inicial e identificación de complejidad.", Herramienta: "Hub de Estratificación + STRATA-CMO.", Acción: "Plan CMO, modalidad de seguimiento y registro de intervención.", Resultado: "Consulta más ordenada y continuidad adaptada." } },
+      { title: "Escenario 2. Paciente con VIH y riesgo de cascada terapéutica", icon: "🧬", intro: "Señales de riesgo que requieren análisis sin automatizar decisiones.", steps: { Problema: "Detección de señales y revisión farmacoterapéutica.", Herramienta: "Detector Cascadas + apoyo IA.", Acción: "Validación farmacéutica, intervención y seguimiento.", Resultado: "Menor riesgo de cascada y trazabilidad investigadora." } },
+      { title: "Escenario 3. Formación de residentes", icon: "🎓", intro: "Aprendizaje basado en CMO, entrevista y pensamiento clínico.", steps: { Problema: "Necesidad de entrenar comunicación y razonamiento CMO.", Herramienta: "CMO_DIGITAL + Análisis Entrevista Motivacional.", Acción: "Prompts docentes, análisis de casos y feedback.", Resultado: "Competencias clínicas y digitales más sólidas." } },
+      { title: "Escenario 4. Gestión e investigación", icon: "📊", intro: "Transformar actividad en indicadores agregados y aprendizaje real.", steps: { Problema: "Datos agregados dispersos y necesidad de benchmarking.", Herramienta: "Evidence Gap Radar + dashboard simulado.", Acción: "Indicadores, gaps de evidencia y resultados en práctica real.", Resultado: "Escalabilidad, investigación y mejora continua." } }
+    ];
+
+    const safetyItems = [
+      "No introducir datos personales identificativos.",
+      "Usar solo identificadores seudonimizados.",
+      "No introducir número de historia clínica real, DNI, nombre completo ni datos sensibles innecesarios.",
+      "Verificar siempre cualquier recomendación generada por IA.",
+      "Mantener al farmacéutico de hospital como responsable final de la decisión.",
+      "Usar la herramienta como soporte, no como sustitución del juicio clínico."
+    ];
+
+    const roadmap = [
+      { icon: "📈", title: "Dashboard longitudinal", items: ["Seguimiento de resultados agregados.", "PROM/PREM y continuidad asistencial.", "Sin datos identificativos en la demo pública."] },
+      { icon: "🧱", title: "Módulo de gobernanza IA", items: ["Criterios de seguridad.", "Validación profesional.", "Auditoría de prompts y recomendaciones."] },
+      { icon: "🔗", title: "Integración MAPEX ampliada", items: ["Guías patología-específicas.", "Plantillas docentes.", "Benchmarking e investigación multicéntrica."] }
+    ];
+
+    const story = [
+      { icon: "🧑‍🤝‍🧑", title: "Para el paciente", items: ["Atención más personalizada.", "Seguimiento adaptado.", "Mejor comprensión del tratamiento."] },
+      { icon: "👩‍⚕️", title: "Para el profesional", items: ["Priorización.", "Apoyo a la decisión.", "Eficiencia en consulta."] },
+      { icon: "🏥", title: "Para el sistema", items: ["Generación de indicadores.", "Investigación en práctica real.", "Escalabilidad."] }
+    ];
+
+    let activeFilter = "todos";
+
+    function externalAttrs(url) {
+      return url.startsWith("#") ? "" : ' target="_blank" rel="noopener noreferrer"';
+    }
+
+    function renderPlatformText() {
+      document.querySelectorAll("[data-platform-name]").forEach(el => { el.textContent = PLATFORM.shortName; });
+      document.querySelectorAll("[data-platform-short]").forEach(el => { el.textContent = PLATFORM.shortName.charAt(0); });
+      document.querySelectorAll("[data-platform-subtitle]").forEach(el => { el.textContent = PLATFORM.subtitle; });
+      document.querySelectorAll("[data-platform-full]").forEach(el => { el.textContent = PLATFORM.fullName; });
+      document.querySelectorAll("[data-platform-version]").forEach(el => { el.textContent = PLATFORM.version; });
+      document.querySelectorAll("[data-platform-author]").forEach(el => { el.textContent = PLATFORM.authorship; });
+      document.querySelectorAll("[data-platform-date]").forEach(el => { el.textContent = PLATFORM.date; });
+      document.querySelectorAll("[data-platform-tagline]").forEach(el => { el.textContent = PLATFORM.tagline; });
+      document.title = `${PLATFORM.shortName} | Hub CMO-MAPEX-DEFT-AI`;
+    }
+
+    function renderNav() {
+      const nav = document.getElementById("navLinks");
+      nav.innerHTML = navItems.map(([id, label]) => `<a class="nav-link" href="#${id}" data-nav-target="${id}">${label}</a>`).join("");
+    }
+
+    function renderHeroMetrics() {
+      const metrics = [
+        [artifacts.length, "artefactos digitales"],
+        [artifacts.length, "operativos"],
+        [artifacts.filter(a => a.daily).length, "de uso diario"],
+        ["CMO", "MAPEX-DEFT-AI"],
+        ["IA", "integración responsable"]
+      ];
+      document.getElementById("heroMetrics").innerHTML = metrics.map(([value, label]) => `<div class="signal-card"><strong>${value}</strong><span>${label}</span></div>`).join("");
+    }
+
+    function renderQuickAccess() {
+      const quick = artifacts.filter(a => a.featured || a.daily).slice(0, 4);
+      document.getElementById("quickAccessGrid").innerHTML = quick.map(a => `
+        <a class="quick-card card" href="${a.url}"${externalAttrs(a.url)}>
+          <div class="card-icon">${a.icon}</div>
+          <h3>${a.name}</h3>
+          <p>${a.description}</p>
+          <div class="card-footer"><span class="badge badge-teal">${a.use}</span><span class="access-button">Abrir →</span></div>
+        </a>`).join("");
+    }
+
+    function renderFilters() {
+      const filters = [
+        ["todos", "Todos"], ["diario", "Uso diario"], ["clinica", "Clínicas"], ["docente", "Docentes"], ["investigador", "Investigadoras"], ["ia", "Integración IA"], ["mapex", "MAPEX/CMO"]
+      ];
+      document.getElementById("artifactFilters").innerHTML = filters.map(([id, label]) => `<button class="filter-btn ${id === activeFilter ? "active" : ""}" type="button" data-filter="${id}">${label}</button>`).join("");
+    }
+
+    function getFilteredArtifacts() {
+      const search = document.getElementById("artifactSearch")?.value.trim().toLowerCase() || "";
+      return artifacts.filter(a => {
+        const matchesFilter = activeFilter === "todos" ||
+          (activeFilter === "diario" && a.daily) ||
+          (activeFilter === "clinica" && a.scope.includes("Clínica")) ||
+          (activeFilter === "docente" && a.scope.includes("Docencia")) ||
+          (activeFilter === "investigador" && a.scope.includes("Investigación")) ||
+          (activeFilter === "ia" && (a.ai || a.deft.includes("AI habilitadora"))) ||
+          (activeFilter === "mapex" && (a.mapex || a.cmo.length > 0));
+        const haystack = [a.id, a.name, a.description, a.category, a.state, a.use, a.type, ...a.cmo, ...a.deft, ...a.scope].join(" ").toLowerCase();
+        return matchesFilter && (!search || haystack.includes(search));
+      });
+    }
+
+    function renderArtifacts() {
+      const filtered = getFilteredArtifacts();
+      document.getElementById("artifactCount").textContent = `${filtered.length} artefacto${filtered.length !== 1 ? "s" : ""} visible${filtered.length !== 1 ? "s" : ""}`;
+      document.getElementById("artifactsGrid").innerHTML = filtered.map(a => `
+        <article class="artifact-card card">
+          <div class="artifact-head">
+            <div class="card-icon">${a.icon}</div>
+            <div>
+              <span class="badge badge-dark">${a.id}</span>
+              <h3>${a.name}</h3>
+              <p>${a.description}</p>
+            </div>
+          </div>
+          <div class="artifact-meta">
+            <span class="badge badge-teal">${a.category}</span>
+            <span class="badge ${a.state === "operativo" ? "badge-teal" : a.state === "prototipo" ? "badge-amber" : "badge-violet"}">${a.state}</span>
+            <span class="badge">${a.use}</span>
+          </div>
+          <div class="artifact-tags">
+            <div class="tag-row"><span class="tag-label">CMO</span>${a.cmo.map(x => `<span class="badge badge-teal">${x}</span>`).join("")}</div>
+            <div class="tag-row"><span class="tag-label">DEFT-AI</span>${a.deft.map(x => `<span class="badge badge-violet">${x}</span>`).join("")}</div>
+            <div class="tag-row"><span class="tag-label">Ámbito</span>${a.scope.map(x => `<span class="badge">${x}</span>`).join("")}</div>
+          </div>
+          ${a.note ? `<div class="insight-note">${a.note}</div>` : ""}
+          <div class="small-muted" style="margin-top: .75rem;">${a.moduleName} · ${a.type} · madurez ${a.maturity}%</div>
+          <div class="artifact-actions">
+            <a class="access-button" href="${a.url}"${externalAttrs(a.url)}>Abrir artefacto →</a>
+            <button class="copy-button" type="button" data-copy="${a.url}">Copiar</button>
+          </div>
+        </article>`).join("") || `<div class="card" style="padding: 2rem; grid-column: 1 / -1;">No hay artefactos con los filtros seleccionados.</div>`;
+    }
+
+    function renderCmo() {
+      document.getElementById("cmoGrid").innerHTML = cmoDimensions.map(d => `
+        <article class="cmo-card card" data-letter="${d.letter}" style="--accent:${d.accent}">
+          <div class="card-icon">${d.icon}</div><span class="badge badge-teal">${d.letter}</span>
+          <h3>${d.title}</h3><p>${d.text}</p>
+          <ul>${d.examples.map(e => `<li>${e}</li>`).join("")}</ul>
+        </article>`).join("");
+    }
+
+    function renderDeft() {
+      document.getElementById("deftGrid").innerHTML = deftComponents.map(d => `
+        <article class="deft-card card" style="--accent:${d.accent}">
+          <div class="deft-letter">${d.key}</div>
+          <h3>${d.icon} ${d.name}</h3>
+          <dl>
+            <div><dt>Definición</dt><dd>${d.definition}</dd></div>
+            <div><dt>Utilidad en consulta</dt><dd>${d.utility}</dd></div>
+            <div><dt>Ejemplo práctico</dt><dd>${d.example}</dd></div>
+            <div><dt>Herramientas SIAF/SIPF</dt><dd>${d.tools}</dd></div>
+            <div><dt>Seguridad</dt><dd>${d.safety}</dd></div>
+          </dl>
+        </article>`).join("");
+    }
+
+    function renderChecklist() {
+      document.getElementById("checklistGrid").innerHTML = checklist.map((block, blockIndex) => `
+        <section class="check-block">
+          <h3>${block.icon} ${block.title}</h3>
+          ${block.items.map((item, itemIndex) => {
+            const id = `check-${blockIndex}-${itemIndex}`;
+            return `<label class="check-item" for="${id}"><input id="${id}" type="checkbox" data-check-item /><span>${item}</span></label>`;
+          }).join("")}
+        </section>`).join("");
+      document.querySelectorAll("[data-check-item]").forEach(input => input.addEventListener("change", updateChecklistProgress));
+      updateChecklistProgress();
+    }
+
+    function updateChecklistProgress() {
+      const items = [...document.querySelectorAll("[data-check-item]")];
+      const done = items.filter(x => x.checked).length;
+      const pct = items.length ? Math.round((done / items.length) * 100) : 0;
+      document.getElementById("checkProgressFill").style.width = `${pct}%`;
+      document.getElementById("checkProgressText").textContent = `${pct}% completado`;
+    }
+
+    function renderMatrix() {
+      const headers = deftComponents.map(d => `<th>${d.key}<br><span class="small-muted">${d.name}</span></th>`).join("");
+      const rows = Object.entries(matrixExamples).map(([dimension, examples]) => `<tr><th>${dimension}</th>${examples.map(text => `<td>${text}</td>`).join("")}</tr>`).join("");
+      document.getElementById("cmoDeftMatrix").innerHTML = `<thead><tr><th>CMO × DEFT-AI</th>${headers}</tr></thead><tbody>${rows}</tbody>`;
+    }
+
+    function renderResources() {
+      const render = list => list.map(r => `<a class="resource-card card" href="${r.url}" target="_blank" rel="noopener noreferrer"><div class="card-icon">${r.icon}</div><h3>${r.title}</h3><p>${r.desc}</p><div class="card-footer"><span></span><span class="access-button">Abrir →</span></div></a>`).join("");
+      document.getElementById("mapexResources").innerHTML = render(resources.mapex);
+      document.getElementById("aiResources").innerHTML = render(resources.ai);
+    }
+
+    function countBy(values) {
+      return values.reduce((acc, value) => ({ ...acc, [value]: (acc[value] || 0) + 1 }), {});
+    }
+
+    function renderDashboard() {
+      const mapexCount = resources.mapex.length;
+      const kpis = [
+        [artifacts.length, "Artefactos", "Ecosistema completo"],
+        [artifacts.filter(a => a.state === "operativo").length, "Operativos", "Disponibles para demo"],
+        [artifacts.filter(a => a.daily).length, "Uso diario", "Consulta externa"],
+        [mapexCount, "Recursos MAPEX", "Enlaces SEFH"],
+      ];
+      document.getElementById("kpiGrid").innerHTML = kpis.map(([value, label, note]) => `<div class="kpi-card card"><div class="kpi-label">${label}</div><div class="kpi-value">${value}</div><div class="kpi-note">${note}</div></div>`).join("");
+
+      const purpose = countBy(artifacts.map(a => a.category));
+      document.getElementById("purposeLegend").innerHTML = Object.entries(purpose).map(([label, value], index) => `<div class="legend-item"><span class="legend-dot" style="--dot:${["#0b1f3a", "#14b8a6", "#8b5cf6", "#f59e0b", "#ef4444"][index % 5]}"></span>${label}: <strong>${value}</strong></div>`).join("");
+
+      const coverage = [
+        ["Capacidad", artifacts.filter(a => a.cmo.includes("Capacidad")).length],
+        ["Motivación", artifacts.filter(a => a.cmo.includes("Motivación")).length],
+        ["Oportunidad", artifacts.filter(a => a.cmo.includes("Oportunidad")).length],
+        ["Diagnosis", artifacts.filter(a => a.deft.includes("Diagnosis")).length],
+        ["Evidence", artifacts.filter(a => a.deft.includes("Evidence")).length],
+        ["AI habilitadora", artifacts.filter(a => a.deft.includes("AI habilitadora")).length]
+      ];
+      const max = Math.max(...coverage.map(([, value]) => value));
+      document.getElementById("coverageBars").innerHTML = coverage.map(([label, value]) => `<div class="bar-row"><span>${label}</span><div class="bar-track"><div class="bar-fill" style="width:${(value / max) * 100}%"></div></div><strong>${value}</strong></div>`).join("");
+
+      const states = Object.entries(countBy(artifacts.map(a => a.state)));
+      const stateMax = Math.max(...states.map(([, value]) => value));
+      document.getElementById("stateBars").innerHTML = states.map(([label, value]) => `<div class="bar-row"><span>${label}</span><div class="bar-track"><div class="bar-fill" style="width:${(value / stateMax) * 100}%"></div></div><strong>${value}</strong></div>`).join("");
+
+      const timeline = [["2024", "Núcleo CMO y primeros artifacts"], ["2025", "DEFT-AI, STRATA-CMO y herramientas IA"], ["2026", "Hub de conferencia y dashboard demostrativo"]];
+      document.getElementById("timelineList").innerHTML = timeline.map(([year, text]) => `<div class="legend-item"><span class="legend-dot" style="--dot:#14b8a6"></span><strong>${year}</strong> ${text}</div>`).join("");
+    }
+
+    function renderJourneys() {
+      document.getElementById("journeyGrid").innerHTML = journeys.map(j => `<article class="journey-card card"><div class="card-icon">${j.icon}</div><h3>${j.title}</h3><p>${j.intro}</p><div class="journey-steps">${Object.entries(j.steps).map(([k, v]) => `<div class="journey-step"><strong>${k}</strong><span>${v}</span></div>`).join("")}</div></article>`).join("");
+    }
+
+    function renderSafetyAndStory() {
+      document.getElementById("safetyList").innerHTML = safetyItems.map(item => `<li>⚠️ ${item}</li>`).join("");
+      document.getElementById("devGrid").innerHTML = roadmap.map(r => `<article class="dev-card card"><div class="card-icon">${r.icon}</div><h3>${r.title}</h3><ul>${r.items.map(i => `<li>${i}</li>`).join("")}</ul></article>`).join("");
+      document.getElementById("storyGrid").innerHTML = story.map(s => `<article class="story-card card"><div class="card-icon">${s.icon}</div><h3>${s.title}</h3><ul>${s.items.map(i => `<li>${i}</li>`).join("")}</ul></article>`).join("");
+    }
+
+    function setupInteractions() {
+      document.getElementById("artifactSearch").addEventListener("input", renderArtifacts);
+      document.getElementById("artifactFilters").addEventListener("click", event => {
+        const button = event.target.closest("[data-filter]");
+        if (!button) return;
+        activeFilter = button.dataset.filter;
+        renderFilters();
+        renderArtifacts();
+      });
+
+      document.body.addEventListener("click", event => {
+        const button = event.target.closest("[data-copy]");
+        if (!button) return;
+        const absolute = button.dataset.copy.startsWith("#") ? `${location.origin}${location.pathname}${button.dataset.copy}` : button.dataset.copy;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(absolute).then(showToast);
+        } else {
+          const temp = document.createElement("textarea");
+          temp.value = absolute;
+          document.body.appendChild(temp);
+          temp.select();
+          document.execCommand("copy");
+          temp.remove();
+          showToast();
         }
+      });
 
-        // Tab switching
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(tabName + '-tab').classList.add('active');
-        }
+      document.getElementById("resetChecklist").addEventListener("click", () => {
+        document.querySelectorAll("[data-check-item]").forEach(input => { input.checked = false; });
+        updateChecklistProgress();
+      });
 
-        // Render quick access
-        function renderQuickAccess() {
-            const container = document.getElementById('quick-access');
-            const quickArts = artefactos.filter(a => a.destacado && a.uso === 'DIARIO');
-            
-            container.innerHTML = quickArts.map(art => `
-                <a href="${art.url}" target="_blank" class="quick-card">
-                    <div class="quick-card-title">${art.nombre}</div>
-                    <div class="quick-card-id">${art.id}</div>
-                    <div class="quick-card-desc">${art.descripcion}</div>
-                    <span class="quick-card-btn">Abrir →</span>
-                </a>
-            `).join('');
-        }
+      document.getElementById("conferenceModeBtn").addEventListener("click", () => {
+        document.body.classList.toggle("conference-mode");
+        document.getElementById("conferenceModeBtn").textContent = document.body.classList.contains("conference-mode") ? "↩️ Salir modo conferencia" : "🎙️ Modo conferencia";
+      });
 
-        // Render modules overview
-        function renderModulesOverview() {
-            const container = document.getElementById('modules-overview');
-            container.innerHTML = modulos.map(mod => `
-                <div class="module-card ${mod.gap ? 'gap' : ''}">
-                    <div class="module-icon">${mod.icon}</div>
-                    <div class="module-name">${mod.nombre}</div>
-                    <div class="module-count">${mod.count} artefacto${mod.count !== 1 ? 's' : ''}</div>
-                    ${mod.gap ? '<span class="module-gap-tag">⚠️ VACÍO</span>' : ''}
-                </div>
-            `).join('');
-        }
+      const topButton = document.getElementById("backToTop");
+      topButton.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+      window.addEventListener("scroll", () => topButton.classList.toggle("visible", window.scrollY > 700));
 
-        // Render filters
-        function renderFilters() {
-            const container = document.getElementById('filters');
-            container.innerHTML = `
-                <button class="filter-btn active" onclick="setFilter('todos')">Todos (10)</button>
-                <button class="filter-btn" onclick="setFilter('diario')">⚡ Uso Diario</button>
-                <div class="filter-divider"></div>
-                <span class="filter-label">CMO:</span>
-                <button class="filter-btn" onclick="setFilter('C')">C</button>
-                <button class="filter-btn" onclick="setFilter('M')">M</button>
-                <button class="filter-btn" onclick="setFilter('O')">O</button>
-                <div class="filter-divider"></div>
-                <span class="filter-label">Ámbito:</span>
-                <button class="filter-btn" onclick="setFilter('clinica')">Clínica</button>
-                <button class="filter-btn" onclick="setFilter('docencia')">Docencia</button>
-                <button class="filter-btn" onclick="setFilter('investigacion')">Investigación</button>
-            `;
-        }
-
-        function setFilter(filter) {
-            filtroActivo = filter;
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderArtifacts();
-        }
-
-        // Render artifacts
-        function renderArtifacts() {
-            const container = document.getElementById('artifacts-grid');
-            let filtered = artefactos;
-
-            if (filtroActivo === 'diario') {
-                filtered = artefactos.filter(a => a.uso === 'DIARIO');
-            } else if (['C', 'M', 'O'].includes(filtroActivo)) {
-                filtered = artefactos.filter(a => a.cmo.includes(filtroActivo));
-            } else if (filtroActivo === 'clinica') {
-                filtered = artefactos.filter(a => a.ambito.includes('Clínica'));
-            } else if (filtroActivo === 'docencia') {
-                filtered = artefactos.filter(a => a.ambito.includes('Docencia'));
-            } else if (filtroActivo === 'investigacion') {
-                filtered = artefactos.filter(a => a.ambito.includes('Investigación'));
-            }
-
-            container.innerHTML = filtered.map(art => {
-                return `
-                    <div class="artifact-card">
-                        <div class="artifact-header">
-                            <div style="flex: 1;">
-                                <div class="artifact-title">${art.nombre}</div>
-                                <div class="artifact-id">${art.id} • ${art.tipo}</div>
-                            </div>
-                        </div>
-                        
-                        <div class="artifact-desc">${art.descripcion}</div>
-                        
-                        <div class="badges">
-                            ${art.cmo.map(c => `<span class="badge badge-cmo">CMO: ${c}</span>`).join('')}
-                            ${art.deftai.map(d => `<span class="badge badge-deft">DEFT-AI: ${d}</span>`).join('')}
-                        </div>
-                        
-                        ${art.nota ? `<div class="note-box note-highlight">${art.nota}</div>` : ''}
-                        ${art.singularidad ? `<div class="note-box note-success">✨ ${art.singularidad}</div>` : ''}
-                        ${art.sinergia ? `<div class="note-box note-info">🔗 ${art.sinergia}</div>` : ''}
-                        ${art.pendiente ? `<div class="note-box note-warning">⏳ ${art.pendiente}</div>` : ''}
-                        
-                        ${art.url !== '#' ? 
-                            `<a href="${art.url}" target="_blank" class="artifact-btn">Abrir Artefacto →</a>` :
-                            `<div class="artifact-btn disabled">Documento (sin URL directa)</div>`
-                        }
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Render modules detail
-        function renderModulesDetail() {
-            const container = document.getElementById('modules-detail');
-            container.innerHTML = modulos.map(mod => {
-                const artsEnModulo = artefactos.filter(a => a.modulo.startsWith(String(mod.id)));
-                
-                return `
-                    <div class="module-section">
-                        <div class="module-header">
-                            <span class="module-header-icon">${mod.icon}</span>
-                            <div class="module-header-text">
-                                <h3>Módulo ${mod.id}: ${mod.nombre}</h3>
-                                <p>${artsEnModulo.length} artefacto${artsEnModulo.length !== 1 ? 's' : ''}</p>
-                            </div>
-                            ${mod.gap ? '<span class="priority-badge priority-high">⚠️ VACÍO</span>' : ''}
-                        </div>
-                        
-                        ${artsEnModulo.length > 0 ? `
-                            <div>
-                                ${artsEnModulo.map(art => `
-                                    <div class="artifact-list-item">
-                                        <div class="artifact-list-header">
-                                            <div style="flex: 1;">
-                                                <div class="artifact-list-name">${art.nombre}</div>
-                                                <div class="artifact-list-module">${art.id} • ${art.moduloNombre}</div>
-                                                <div class="artifact-list-desc">${art.descripcion}</div>
-                                            </div>
-                                            ${art.url !== '#' ? 
-                                                `<a href="${art.url}" target="_blank" class="artifact-list-btn">Abrir</a>` : ''
-                                            }
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : `
-                            <div class="empty-state">
-                                <div class="empty-state-icon">📭</div>
-                                <p>No hay artefactos en este módulo</p>
-                                <p style="font-size: 0.85rem; margin-top: 0.5rem;">Futuro desarrollo pendiente</p>
-                            </div>
-                        `}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            renderQuickAccess();
-            renderModulesOverview();
-            renderFilters();
-            renderArtifacts();
-            renderModulesDetail();
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          document.querySelectorAll("[data-nav-target]").forEach(link => link.classList.toggle("active", link.dataset.navTarget === entry.target.id));
         });
-    </script>
+      }, { rootMargin: "-35% 0px -55% 0px", threshold: 0.01 });
+      navItems.forEach(([id]) => {
+        const section = document.getElementById(id);
+        if (section) observer.observe(section);
+      });
+    }
+
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 1500);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderPlatformText();
+      renderNav();
+      renderHeroMetrics();
+      renderQuickAccess();
+      renderFilters();
+      renderArtifacts();
+      renderCmo();
+      renderDeft();
+      renderChecklist();
+      renderMatrix();
+      renderResources();
+      renderDashboard();
+      renderJourneys();
+      renderSafetyAndStory();
+      setupInteractions();
+    });
+  </script>
 </body>
 </html>
