@@ -1235,7 +1235,7 @@
       { id: "CLI-CMO-010", icon: "🧬", name: "STRATA-CMO: HIV Pharmaceutical Care Stratification Tool", url: "https://claude.ai/public/artifacts/9ec1a3df-7482-4894-9a2c-cf1e3c13b0a7", module: "2.1", moduleName: "Herramientas Clínicas - Evaluación", category: "Estratificación y priorización", cmo: ["Capacidad", "Motivación", "Oportunidad"], deft: ["Diagnosis", "Evidence", "Feedback", "Teaching", "AI habilitadora"], scope: ["Clínica"], level: "Operativo", use: "diario", state: "operativo", maturity: 75, type: "Artifact Claude", description: "Sistema integrado de valoración de pacientes VIH con visión CMO y continuidad asistencial.", featured: true, daily: true, ai: true, mapex: true, note: "Sistema completo que integra los 5 componentes DEFT-AI para VIH." },
       { id: "CLI-AI-002", icon: "🤖", name: "CMOpharma GPT", url: "https://chatgpt.com/g/g-680e5ee42da0819185d9ffec4ce6fd2c-cmopharma-asistente", module: "2.4", moduleName: "Herramientas Clínicas - Asistentes IA", category: "IA generativa", cmo: ["Capacidad", "Motivación", "Oportunidad"], deft: ["Diagnosis", "Evidence", "Feedback", "Teaching", "AI habilitadora"], scope: ["Clínica", "Docencia"], level: "Operativo-Táctico", use: "diario", state: "operativo", maturity: 85, type: "GPT Custom", description: "Asistente clínico IA para planificación de intervenciones CMO supervisadas por el farmacéutico de hospital.", featured: true, daily: true, ai: true, note: "Herramienta central con cobertura completa DEFT-AI." },
       { id: "INV-AI-003", icon: "🧪", name: "Detector Cascadas Terapéuticas", url: "https://ramonmorillo.github.io/hiv-prescribing-cascade-auditor/", module: "4.2", moduleName: "Investigación - Recogida datos", category: "Investigación", cmo: ["Capacidad"], deft: ["Diagnosis", "AI habilitadora"], scope: ["Investigación"], level: "Táctico", use: "investigador", state: "prototipo", maturity: 60, type: "Web GitHub Pages local-first", description: "Auditor de cascadas de prescripción en VIH con enfoque local-first y validación farmacéutica.", featured: true, ai: true, note: "Pendiente de validación externa y publicación." },
-      { id: "INV-O-004", icon: "🧮", name: "Calculadora MRCI-MRCIA", url: "https://claude.ai/public/artifacts/f75cbb9c-0680-40d5-80d9-8aac677d9adb", module: "4.2", moduleName: "Investigación - Recogida datos", category: "Evaluación y resultados", cmo: ["Capacidad"], deft: ["Diagnosis"], scope: ["Investigación", "Docencia"], level: "Táctico", use: "investigador", state: "operativo", maturity: 55, type: "Artifact Claude", description: "Calcula MRCI total y componentes A/B/C para estimar complejidad farmacoterapéutica.", featured: false, note: "Integrable en Hub de Estratificación." },
+      { id: "CLI-C-004", icon: "💊", name: "Calculadora MRCI", subtitle: "Medication Regimen Complexity Index", url: "https://mrci-app.onrender.com/index.html", module: "2.1", moduleName: "Herramientas Clínicas - Evaluación", category: "Complejidad farmacoterapéutica", cmo: ["Capacidad"], deft: ["Diagnosis", "Evidence", "Feedback"], scope: ["Clínica", "Investigación", "Docencia"], level: "Operativo", use: "Herramienta clínica", state: "operativo", stateLabel: "Operativa", maturity: 70, type: "Herramienta clínica externa", description: "Herramienta para estimar la complejidad del régimen farmacoterapéutico mediante el índice MRCI, facilitando la identificación de pacientes con mayor carga terapéutica y necesidades de intervención farmacéutica.", featured: false, buttonLabel: "Abrir herramienta", note: "El MRCI contribuye a valorar la dimensión Capacidad del modelo CMO, al cuantificar la complejidad del régimen terapéutico y ayudar a identificar pacientes que pueden requerir mayor apoyo farmacéutico, simplificación terapéutica o seguimiento intensivo.", deftNote: "Esta herramienta se integra en el componente Diagnosis del marco DEFT-AI, al permitir detectar y cuantificar complejidad farmacoterapéutica como elemento clave para la priorización farmacéutica.", safetyNote: "No introduzca datos personales identificativos. Utilice únicamente información clínica necesaria y, si procede, identificadores seudonimizados. La herramienta se abre en una página externa. Verifique siempre las recomendaciones antes de aplicarlas en la práctica clínica." },
       { id: "INV-CMO-009", icon: "📡", name: "Evidence Gap Radar", url: "https://ramonmorillo.github.io/evidencegap-radar/", module: "4.3", moduleName: "Investigación - Análisis evidencia", category: "Investigación", cmo: ["Capacidad", "Motivación", "Oportunidad"], deft: ["Diagnosis", "Evidence"], scope: ["Investigación"], level: "Táctico", use: "ocasional", state: "operativo", maturity: 70, type: "Web GitHub Pages", description: "Búsqueda y visualización de gaps de evidencia para investigación y priorización de preguntas.", featured: false },
       { id: "DOC-C-005", icon: "🧠", name: "CMO_DIGITAL Prompt Builder", url: "https://huggingface.co/spaces/ramonmorillo/CMO_DIGITAL", module: "3.3", moduleName: "Docencia - Prompts pedagógicos", category: "Docencia y formación", cmo: ["Motivación"], deft: ["Teaching", "AI habilitadora"], scope: ["Docencia"], level: "Táctico", use: "docente", state: "operativo", maturity: 65, type: "App HuggingFace", description: "Enseña a construir prompts IA con lógica CMO sin necesidad de API.", featured: false, ai: true, note: "Complementa a CMOpharma GPT: uno enseña, otro ejecuta." },
       { id: "DOC-M-006", icon: "🎧", name: "Análisis Entrevista Motivacional", url: "https://claude.ai/public/artifacts/9d9747f4-1b3c-4db3-9459-3eb95ebc8f69", module: "3.2", moduleName: "Docencia - Métodos docentes", category: "Docencia y formación", cmo: ["Motivación"], deft: ["Feedback", "Teaching"], scope: ["Docencia"], level: "Táctico", use: "docente", state: "operativo", maturity: 60, type: "Artifact Claude", description: "Análisis de audios de entrevista motivacional con feedback pedagógico para competencias comunicativas.", featured: false, note: "Artifact específico para entrenamiento de comunicación clínica." },
@@ -1250,9 +1250,9 @@
     ];
 
     const deftComponents = [
-      { key: "D", name: "Diagnosis", icon: "🔍", accent: "#2563eb", definition: "Evaluación continua de complejidad, necesidades y riesgos.", utility: "Ordena la priorización en consulta externa.", example: "Paciente VIH nuevo: estratificación, señales de complejidad y modalidad de seguimiento.", tools: "Hub de Estratificación, STRATA-CMO, Detector Cascadas, MRCI-MRCIA.", safety: "Toda alerta requiere validación farmacéutica." },
-      { key: "E", name: "Evidence", icon: "📚", accent: "#7c3aed", definition: "Conexión con evidencia científica, guías MAPEX y marco CMO.", utility: "Reduce variabilidad y sostiene decisiones documentadas.", example: "Consulta de evidencia ante una intervención compleja o gap de investigación.", tools: "Evidence Gap Radar, Paper DEFT-AI, recursos MAPEX-SEFH.", safety: "Verificar fuentes y actualidad de la evidencia." },
-      { key: "F", name: "Feedback", icon: "🔁", accent: "#0d9488", definition: "Retroalimentación personalizada para intervención, aprendizaje y seguimiento.", utility: "Permite reevaluar objetivos farmacoterapéuticos y adherencia.", example: "Feedback al residente tras entrevista motivacional o al paciente tras seguimiento.", tools: "STRATA-CMO, CMOpharma GPT, Análisis Entrevista Motivacional.", safety: "No automatizar conclusiones sin revisión profesional." },
+      { key: "D", name: "Diagnosis", icon: "🔍", accent: "#2563eb", definition: "Evaluación continua de complejidad, necesidades y riesgos.", utility: "Ordena la priorización en consulta externa.", example: "Paciente VIH nuevo: estratificación, señales de complejidad y modalidad de seguimiento.", tools: "Hub de Estratificación, STRATA-CMO, Detector Cascadas, Calculadora MRCI.", safety: "Toda alerta requiere validación farmacéutica." },
+      { key: "E", name: "Evidence", icon: "📚", accent: "#7c3aed", definition: "Conexión con evidencia científica, guías MAPEX y marco CMO.", utility: "Reduce variabilidad y sostiene decisiones documentadas.", example: "Consulta de evidencia ante una intervención compleja o gap de investigación.", tools: "Calculadora MRCI, Evidence Gap Radar, Paper DEFT-AI, recursos MAPEX-SEFH.", safety: "Verificar fuentes y actualidad de la evidencia." },
+      { key: "F", name: "Feedback", icon: "🔁", accent: "#0d9488", definition: "Retroalimentación personalizada para intervención, aprendizaje y seguimiento.", utility: "Permite reevaluar objetivos farmacoterapéuticos y adherencia.", example: "Feedback al residente tras entrevista motivacional o al paciente tras seguimiento.", tools: "STRATA-CMO, Calculadora MRCI, CMOpharma GPT, Análisis Entrevista Motivacional.", safety: "No automatizar conclusiones sin revisión profesional." },
       { key: "T", name: "Teaching", icon: "🎓", accent: "#f59e0b", definition: "Educación del paciente, residentes y profesionales con lenguaje adaptado.", utility: "Mejora comprensión del tratamiento y competencias clínicas.", example: "Explicar un plan CMO con infografía y prompts docentes.", tools: "Rxplain, CMO_DIGITAL, CMOpharma GPT, guías MAPEX.", safety: "Adaptar el mensaje a alfabetización sanitaria y digital." },
       { key: "AI", name: "AI habilitadora", icon: "🤖", accent: "#db2777", definition: "IA como capa transversal que optimiza flujos y síntesis.", utility: "Aumenta capacidad de análisis sin desplazar la decisión profesional.", example: "Borrador de intervención CMO que el farmacéutico valida y ajusta.", tools: "CMOpharma GPT, STRATA-CMO, Detector Cascadas, artifacts Claude.", safety: "No introducir datos identificativos y verificar recomendaciones." }
     ];
@@ -1300,7 +1300,8 @@
       "No introducir número de historia clínica real, DNI, nombre completo ni datos sensibles innecesarios.",
       "Verificar siempre cualquier recomendación generada por IA.",
       "Mantener al farmacéutico de hospital como responsable final de la decisión.",
-      "Usar la herramienta como soporte, no como sustitución del juicio clínico."
+      "Usar la herramienta como soporte, no como sustitución del juicio clínico.",
+      "En herramientas externas como la Calculadora MRCI, utilizar únicamente información clínica necesaria y, si procede, identificadores seudonimizados."
     ];
 
     const roadmap = [
@@ -1341,7 +1342,7 @@
     function renderHeroMetrics() {
       const metrics = [
         [artifacts.length, "artefactos digitales"],
-        [artifacts.length, "operativos"],
+        [artifacts.filter(a => a.state === "operativo").length, "operativos"],
         [artifacts.filter(a => a.daily).length, "de uso diario"],
         ["CMO", "MAPEX-DEFT-AI"],
         ["IA", "integración responsable"]
@@ -1392,12 +1393,13 @@
             <div>
               <span class="badge badge-dark">${a.id}</span>
               <h3>${a.name}</h3>
+              ${a.subtitle ? `<p class="small-muted">${a.subtitle}</p>` : ""}
               <p>${a.description}</p>
             </div>
           </div>
           <div class="artifact-meta">
             <span class="badge badge-teal">${a.category}</span>
-            <span class="badge ${a.state === "operativo" ? "badge-teal" : a.state === "prototipo" ? "badge-amber" : "badge-violet"}">${a.state}</span>
+            <span class="badge ${a.state === "operativo" ? "badge-teal" : a.state === "prototipo" ? "badge-amber" : "badge-violet"}">${a.stateLabel || a.state}</span>
             <span class="badge">${a.use}</span>
           </div>
           <div class="artifact-tags">
@@ -1406,9 +1408,11 @@
             <div class="tag-row"><span class="tag-label">Ámbito</span>${a.scope.map(x => `<span class="badge">${x}</span>`).join("")}</div>
           </div>
           ${a.note ? `<div class="insight-note">${a.note}</div>` : ""}
+          ${a.deftNote ? `<div class="insight-note">${a.deftNote}</div>` : ""}
+          ${a.safetyNote ? `<div class="insight-note">⚠️ ${a.safetyNote}</div>` : ""}
           <div class="small-muted" style="margin-top: .75rem;">${a.moduleName} · ${a.type} · madurez ${a.maturity}%</div>
           <div class="artifact-actions">
-            <a class="access-button" href="${a.url}"${externalAttrs(a.url)}>Abrir artefacto →</a>
+            <a class="access-button" href="${a.url}"${externalAttrs(a.url)}>${a.buttonLabel || "Abrir artefacto"} →</a>
             <button class="copy-button" type="button" data-copy="${a.url}">Copiar</button>
           </div>
         </article>`).join("") || `<div class="card" style="padding: 2rem; grid-column: 1 / -1;">No hay artefactos con los filtros seleccionados.</div>`;
