@@ -422,6 +422,7 @@
     .cmo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .journey-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .resources-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .resource-feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .story-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .dev-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
@@ -1097,6 +1098,8 @@
           </div>
           <h3>Recursos MAPEX-SEFH</h3>
           <div class="resources-grid" id="mapexResources"></div>
+          <h3 style="margin-top: 2rem;">Recursos docentes y proyectos vinculados</h3>
+          <div class="resources-grid resource-feature-grid" id="docenciaResources"></div>
           <h3 style="margin-top: 2rem;">Herramientas digitales e IA</h3>
           <div class="resources-grid" id="aiResources"></div>
         </div>
@@ -1262,6 +1265,10 @@
         { icon: "📄", title: "Documentación MAPEX", desc: "Guías CMO, telefarmacia, Q-PEX, PROM/PREM y más.", url: "https://www.sefh.es/mapex/documentacion.php" },
         { icon: "⚖️", title: "Certificación Q-PEX", desc: "Norma de calidad para unidades de pacientes externos.", url: "https://www.sefh.es/mapex/q-pex.php" },
         { icon: "🏥", title: "SEFH", desc: "Sociedad Española de Farmacia Hospitalaria.", url: "https://www.sefh.es/" }
+      ],
+      docencia: [
+        { icon: "🧬", title: "VIH-PRO | Herramienta del proyecto de investigación", desc: "Acceso a la herramienta vinculada al proyecto de investigación en desarrollo.", url: "https://v2.e-midcare.com/panel/vihpro.php" },
+        { icon: "🏥", title: "Farmacia Valme CPV | Web docente y asistencial", desc: "Web docente y asistencial de Farmacia Valme CPV.", url: "https://www.farmaciavalmecpv.com/" }
       ],
       ai: [
         { icon: "💬", title: "Claude", desc: "Herramientas y análisis asistido.", url: "https://claude.ai" },
@@ -1471,6 +1478,7 @@
     function renderResources() {
       const render = list => list.map(r => `<a class="resource-card card" href="${r.url}" target="_blank" rel="noopener noreferrer"><div class="card-icon">${r.icon}</div><h3>${r.title}</h3><p>${r.desc}</p><div class="card-footer"><span></span><span class="access-button">Abrir →</span></div></a>`).join("");
       document.getElementById("mapexResources").innerHTML = render(resources.mapex);
+      document.getElementById("docenciaResources").innerHTML = render(resources.docencia);
       document.getElementById("aiResources").innerHTML = render(resources.ai);
     }
 
