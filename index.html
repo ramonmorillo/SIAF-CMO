@@ -53,11 +53,6 @@
       line-height: 1.55;
     }
 
-    body.conference-mode {
-      font-size: 18px;
-      background: linear-gradient(180deg, #f8fbff 0%, #eef6f8 100%);
-    }
-
     a { color: inherit; }
 
     .skip-link {
@@ -161,17 +156,6 @@
     .nav-link.active {
       background: rgba(20, 184, 166, 0.12);
       color: var(--navy-900);
-    }
-
-    .mode-toggle {
-      min-width: fit-content;
-      border: 1px solid rgba(20, 184, 166, 0.35);
-      border-radius: 999px;
-      padding: 0.68rem 0.9rem;
-      background: linear-gradient(135deg, rgba(20, 184, 166, 0.12), rgba(139, 92, 246, 0.10));
-      color: var(--navy-900);
-      font-weight: 850;
-      cursor: pointer;
     }
 
     .hero {
@@ -857,6 +841,7 @@
     }
     .footer-grid { display: flex; justify-content: space-between; gap: 1rem; align-items: center; flex-wrap: wrap; }
     .footer strong { color: var(--white); }
+    .footer-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
 
     .back-to-top {
       position: fixed;
@@ -895,12 +880,6 @@
     }
     .toast.visible { opacity: 1; transform: translate(-50%, 0); }
 
-    body.conference-mode .hide-in-conference { display: none !important; }
-    body.conference-mode .section { padding: 5.2rem 0; }
-    body.conference-mode .card { box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12); }
-    body.conference-mode .section-title { font-size: clamp(2.4rem, 4.8vw, 4rem); }
-    body.conference-mode .artifacts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
     @media (max-width: 1100px) {
       .hero .container,
       .section-header,
@@ -909,12 +888,11 @@
       .quick-grid, .kpi-grid, .resources-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .artifacts-grid, .deft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .nav-inner { align-items: stretch; flex-direction: column; padding: 0.7rem 0; }
-      .mode-toggle { align-self: flex-start; }
     }
 
     @media (max-width: 760px) {
       .hero { padding: 3.5rem 0 2.3rem; }
-      .signal-grid, .quick-grid, .kpi-grid, .cmo-grid, .journey-grid, .resources-grid, .story-grid, .dev-grid, .checklist-grid, .deft-grid, .artifacts-grid, body.conference-mode .artifacts-grid, .safety-list { grid-template-columns: 1fr; }
+      .signal-grid, .quick-grid, .kpi-grid, .cmo-grid, .journey-grid, .resources-grid, .story-grid, .dev-grid, .checklist-grid, .deft-grid, .artifacts-grid, .safety-list { grid-template-columns: 1fr; }
       .journey-steps { grid-template-columns: 1fr; }
       .donut-wrap { grid-template-columns: 1fr; }
       .bar-row { grid-template-columns: 110px 1fr 30px; }
@@ -934,10 +912,9 @@
       <div class="container nav-inner">
         <a class="brand" href="#inicio" aria-label="Ir a inicio">
           <span class="brand-mark" data-platform-short>S</span>
-          <span><strong data-platform-name>SIAF-CMO</strong><span data-platform-version>v2.0 conferencia</span></span>
+          <span><strong data-platform-name>SIAF-CMO</strong><span data-platform-version>v2.0</span></span>
         </a>
         <div class="nav-links" id="navLinks"></div>
-        <button class="mode-toggle" id="conferenceModeBtn" type="button">🎙️ Modo conferencia</button>
       </div>
     </nav>
 
@@ -972,7 +949,7 @@
     </header>
 
     <main id="contenido">
-      <section class="section hide-in-conference" id="acceso-rapido">
+      <section class="section" id="acceso-rapido">
         <div class="container">
           <div class="section-header">
             <div>
@@ -1081,7 +1058,7 @@
               <h2 class="section-title">La matriz diferencial para explicar el ecosistema</h2>
               <p class="section-lead">Cruza las dimensiones CMO con los componentes DEFT-AI para mostrar dónde aporta valor cada herramienta y cómo se integra la IA responsable.</p>
             </div>
-            <span class="badge badge-teal">Mapa conceptual para conferencia</span>
+            <span class="badge badge-teal">Mapa conceptual CMO-DEFT-AI</span>
           </div>
           <div class="matrix-wrap"><table class="matrix" id="cmoDeftMatrix"></table></div>
         </div>
@@ -1146,7 +1123,7 @@
             <div>
               <div class="section-kicker">Clinical journeys</div>
               <h2 class="section-title">Casos de uso para enseñar el valor en pantalla grande</h2>
-              <p class="section-lead">Escenarios narrativos preparados para conferencia: problema, herramienta, acción farmacéutica y resultado esperado.</p>
+              <p class="section-lead">Escenarios narrativos preparados para mostrar problema, herramienta, acción farmacéutica y resultado esperado.</p>
             </div>
           </div>
           <div class="journey-grid" id="journeyGrid"></div>
@@ -1169,7 +1146,7 @@
         </div>
       </section>
 
-      <section class="section hide-in-conference" id="proximos">
+      <section class="section" id="proximos">
         <div class="container">
           <div class="section-header">
             <div>
@@ -1185,7 +1162,7 @@
           <div class="story-band">
             <div class="section-header">
               <div>
-                <div class="section-kicker">Motor narrativo para la conferencia</div>
+                <div class="section-kicker">Motor narrativo del ecosistema</div>
                 <h2 class="section-title">De herramientas aisladas a un ecosistema inteligente de atención farmacéutica</h2>
                 <p class="section-lead">El valor de SIAF-CMO no reside solo en disponer de múltiples herramientas digitales, sino en integrarlas dentro de un marco común que conecta estratificación, intervención, formación, evidencia, seguimiento e inteligencia artificial responsable.</p>
               </div>
@@ -1199,7 +1176,7 @@
     <footer class="footer">
       <div class="container footer-grid">
         <div><strong data-platform-name>SIAF-CMO</strong><br /><span data-platform-full>Sistema Inteligente de Atención Farmacéutica basado en CMO-MAPEX-DEFT-AI</span></div>
-        <div><span data-platform-author>Autoría: Ramón Morillo</span> · <span data-platform-date>Junio 2026</span></div>
+        <div class="footer-meta"><span data-platform-author>Autoría: Ramón Morillo</span> · <span data-platform-date>Junio 2026</span> · <span id="visitCounter" aria-live="polite">Visitas: 0</span></div>
       </div>
     </footer>
   </div>
@@ -1213,7 +1190,7 @@
       legacyName: "SIPF-CMO",
       fullName: "Sistema Inteligente de Atención Farmacéutica basado en CMO-MAPEX-DEFT-AI",
       subtitle: "Sistema Inteligente de Atención Farmacéutica basado en CMO-MAPEX-DEFT-AI",
-      version: "v2.0 conferencia",
+      version: "v2.0",
       authorship: "Autoría: Ramón Morillo",
       date: "Junio 2026",
       tagline: "Un ecosistema digital para estratificar, priorizar, intervenir, formar e investigar en consultas externas de farmacia hospitalaria.",
@@ -1514,7 +1491,7 @@
       const stateMax = Math.max(...states.map(([, value]) => value));
       document.getElementById("stateBars").innerHTML = states.map(([label, value]) => `<div class="bar-row"><span>${label}</span><div class="bar-track"><div class="bar-fill" style="width:${(value / stateMax) * 100}%"></div></div><strong>${value}</strong></div>`).join("");
 
-      const timeline = [["2024", "Núcleo CMO y primeras herramientas"], ["2025", "DEFT-AI, STRATA-CMO y herramientas IA"], ["2026", "Hub de conferencia y dashboard demostrativo"]];
+      const timeline = [["2024", "Núcleo CMO y primeras herramientas"], ["2025", "DEFT-AI, STRATA-CMO y herramientas IA"], ["2026", "Hub web y dashboard demostrativo"]];
       document.getElementById("timelineList").innerHTML = timeline.map(([year, text]) => `<div class="legend-item"><span class="legend-dot" style="--dot:#14b8a6"></span><strong>${year}</strong> ${text}</div>`).join("");
     }
 
@@ -1526,6 +1503,16 @@
       document.getElementById("safetyList").innerHTML = safetyItems.map(item => `<li>⚠️ ${item}</li>`).join("");
       document.getElementById("devGrid").innerHTML = roadmap.map(r => `<article class="dev-card card"><div class="card-icon">${r.icon}</div><h3>${r.title}</h3><ul>${r.items.map(i => `<li>${i}</li>`).join("")}</ul></article>`).join("");
       document.getElementById("storyGrid").innerHTML = story.map(s => `<article class="story-card card"><div class="card-icon">${s.icon}</div><h3>${s.title}</h3><ul>${s.items.map(i => `<li>${i}</li>`).join("")}</ul></article>`).join("");
+    }
+
+    function initVisitCounter() {
+      const counter = document.getElementById("visitCounter");
+      if (!counter) return;
+
+      const storageKey = "siaf-cmo-visit-count";
+      const visits = Number.parseInt(localStorage.getItem(storageKey) || "0", 10) + 1;
+      localStorage.setItem(storageKey, String(visits));
+      counter.textContent = `Visitas: ${visits.toLocaleString("es-ES")}`;
     }
 
     function setupInteractions() {
@@ -1558,11 +1545,6 @@
       document.getElementById("resetChecklist").addEventListener("click", () => {
         document.querySelectorAll("[data-check-item]").forEach(input => { input.checked = false; });
         updateChecklistProgress();
-      });
-
-      document.getElementById("conferenceModeBtn").addEventListener("click", () => {
-        document.body.classList.toggle("conference-mode");
-        document.getElementById("conferenceModeBtn").textContent = document.body.classList.contains("conference-mode") ? "↩️ Salir modo conferencia" : "🎙️ Modo conferencia";
       });
 
       const topButton = document.getElementById("backToTop");
@@ -1602,6 +1584,7 @@
       renderDashboard();
       renderJourneys();
       renderSafetyAndStory();
+      initVisitCounter();
       setupInteractions();
     });
   </script>
