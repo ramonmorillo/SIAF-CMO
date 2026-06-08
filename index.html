@@ -969,10 +969,10 @@
             <div>
               <div class="section-kicker">Ecosistema digital</div>
               <h2 class="section-title">Herramientas como plataforma, no como lista</h2>
-              <p class="section-lead">Cada herramienta se sitúa por finalidad, dimensión CMO, componente DEFT-AI, estado y frecuencia de uso. Los filtros funcionan en frontend y no requieren backend.</p>
+              <p class="section-lead">Cada herramienta se sitúa por finalidad, dimensión CMO, componente DEFT-AI, estado y frecuencia de uso. La plataforma incorpora herramientas de estratificación, análisis farmacoterapéutico, generación de informes y explotación de datos de práctica real, orientadas a facilitar una atención farmacéutica más personalizada, longitudinal y evaluable. Los filtros funcionan en frontend y no requieren backend.</p>
             </div>
             <div class="card controls-card">
-              <strong id="artifactCount">10 herramientas visibles</strong>
+              <strong id="artifactCount">11 herramientas visibles</strong>
               <p class="small-muted">Búsqueda rápida, filtros y enlaces copiables.</p>
             </div>
           </div>
@@ -1164,7 +1164,7 @@
               <div>
                 <div class="section-kicker">Motor narrativo del ecosistema</div>
                 <h2 class="section-title">De herramientas aisladas a un ecosistema inteligente de atención farmacéutica</h2>
-                <p class="section-lead">El valor de SIAF-CMO no reside solo en disponer de múltiples herramientas digitales, sino en integrarlas dentro de un marco común que conecta estratificación, intervención, formación, evidencia, seguimiento e inteligencia artificial responsable.</p>
+                <p class="section-lead">El valor de SIAF-CMO no reside solo en disponer de múltiples herramientas digitales, sino en integrarlas dentro de un marco común que conecta estratificación, intervención, formación, evidencia, registro longitudinal, análisis de práctica real, generación de informes, seguimiento e inteligencia artificial responsable.</p>
               </div>
             </div>
             <div class="story-grid" id="storyGrid"></div>
@@ -1193,7 +1193,7 @@
       version: "v2.0",
       authorship: "Autoría: Ramón Morillo",
       date: "Junio 2026",
-      tagline: "Un ecosistema digital para estratificar, priorizar, intervenir, formar e investigar en consultas externas de farmacia hospitalaria.",
+      tagline: "Un ecosistema digital para estratificar, priorizar, registrar, analizar, generar informes e investigar en consultas externas de farmacia hospitalaria.",
       safetyMotto: "IA como apoyo. Decisión final profesional."
     };
 
@@ -1211,6 +1211,7 @@
     const artifacts = [
       { id: "CLI-C-001", icon: "🧭", name: "Hub de Estratificación", url: "https://claude.ai/public/artifacts/edc0928d-29a8-475c-9e73-11e4fb5e6578", module: "2.1", moduleName: "Herramientas Clínicas - Evaluación", category: "Estratificación y priorización", cmo: ["Capacidad", "Oportunidad"], deft: ["Diagnosis"], scope: ["Clínica"], level: "Operativo", use: "diario", state: "operativo", maturity: 80, type: "Herramienta Claude", description: "Todas las herramientas de estratificación CMO publicadas disponibles en un punto único.", featured: true, daily: true, mapex: true },
       { id: "CLI-CMO-010", icon: "🧬", name: "STRATA-CMO: HIV Pharmaceutical Care Stratification Tool", url: "https://claude.ai/public/artifacts/9ec1a3df-7482-4894-9a2c-cf1e3c13b0a7", module: "2.1", moduleName: "Herramientas Clínicas - Evaluación", category: "Estratificación y priorización", cmo: ["Capacidad", "Motivación", "Oportunidad"], deft: ["Diagnosis", "Evidence", "Feedback", "Teaching", "AI habilitadora"], scope: ["Clínica"], level: "Operativo", use: "diario", state: "operativo", maturity: 75, type: "Herramienta Claude", description: "Sistema integrado de valoración de pacientes VIH con visión CMO y continuidad asistencial.", featured: true, daily: true, ai: true, mapex: true, note: "Sistema completo que integra los 5 componentes DEFT-AI para VIH." },
+      { id: "CLI-VIH-011", icon: "📊", name: "cambiosTAR", subtitle: "Registro, análisis e informes de cambios de TAR", url: "https://ramonmorillo.github.io/cambiosTAR/#inicio", module: "2.3", moduleName: "Herramientas Clínicas - Seguimiento farmacoterapéutico", category: "Registro y análisis longitudinal", cmo: ["Capacidad", "Motivación", "Oportunidad"], deft: ["Diagnosis", "Evidence", "Feedback"], scope: ["Clínica", "VIH", "Gestión clínica", "Investigación"], level: "Operativo", use: "Uso diario", state: "operativo", stateLabel: "Operativa", maturity: 80, type: "Herramienta operativa de consulta diaria local-first", description: "Herramienta de uso diario para registrar, analizar y explotar los cambios de tratamiento antirretroviral en consulta. Permite importar histórico Excel, registrar nuevos cambios, analizar motivos, visualizar tendencias, generar informes y trabajar con patient_id seudonimizado en entorno local sin backend.", featured: true, daily: true, mapex: true, buttonLabel: "Abrir cambiosTAR", featureTags: ["Uso diario", "VIH", "TAR", "Dashboard", "Informes", "Local / sin backend"], note: "Apoya el registro estructurado de cambios TAR, el análisis de tendencias, la generación de informes clínico-operativos y el seguimiento longitudinal seudonimizado sin sustituir los sistemas corporativos ni el juicio profesional.", safetyNote: "cambiosTAR funciona en local, sin backend y sin envío de datos clínicos a servidores externos. Los registros se almacenan en el navegador del usuario, por lo que se recomienda realizar copias de seguridad periódicas y no introducir datos identificativos innecesarios. Diseñada con enfoque de minimización de datos y funcionamiento local." },
       { id: "CLI-AI-002", icon: "🤖", name: "CMOpharma GPT", url: "https://chatgpt.com/g/g-680e5ee42da0819185d9ffec4ce6fd2c-cmopharma-asistente", module: "2.4", moduleName: "Herramientas Clínicas - Asistentes IA", category: "IA generativa", cmo: ["Capacidad", "Motivación", "Oportunidad"], deft: ["Diagnosis", "Evidence", "Feedback", "Teaching", "AI habilitadora"], scope: ["Clínica", "Docencia"], level: "Operativo-Táctico", use: "diario", state: "operativo", maturity: 85, type: "GPT Custom", description: "Asistente clínico IA para planificación de intervenciones CMO supervisadas por el farmacéutico de hospital.", featured: true, daily: true, ai: true, note: "Herramienta central con cobertura completa DEFT-AI." },
       { id: "INV-AI-003", icon: "🧪", name: "Detector Cascadas Terapéuticas", url: "https://ramonmorillo.github.io/hiv-prescribing-cascade-auditor/", module: "4.2", moduleName: "Investigación - Recogida datos", category: "Investigación", cmo: ["Capacidad"], deft: ["Diagnosis", "AI habilitadora"], scope: ["Investigación"], level: "Táctico", use: "investigador", state: "prototipo", maturity: 60, type: "Web GitHub Pages local-first", description: "Auditor de cascadas de prescripción en VIH con enfoque local-first y validación farmacéutica.", featured: true, ai: true, note: "Pendiente de validación externa y publicación." },
       { id: "CLI-C-004", icon: "💊", name: "Calculadora MRCI", subtitle: "Medication Regimen Complexity Index", url: "https://mrci-app.onrender.com/index.html", module: "2.1", moduleName: "Herramientas Clínicas - Evaluación", category: "Complejidad farmacoterapéutica", cmo: ["Capacidad"], deft: ["Diagnosis", "Evidence", "Feedback"], scope: ["Clínica", "Investigación", "Docencia"], level: "Operativo", use: "Herramienta clínica", state: "operativo", stateLabel: "Operativa", maturity: 70, type: "Herramienta clínica externa", description: "Herramienta para estimar la complejidad del régimen farmacoterapéutico mediante el índice MRCI, facilitando la identificación de pacientes con mayor carga terapéutica y necesidades de intervención farmacéutica.", featured: false, buttonLabel: "Abrir herramienta", note: "El MRCI contribuye a valorar la dimensión Capacidad del modelo CMO, al cuantificar la complejidad del régimen terapéutico y ayudar a identificar pacientes que pueden requerir mayor apoyo farmacéutico, simplificación terapéutica o seguimiento intensivo.", deftNote: "Esta herramienta se integra en el componente Diagnosis del marco DEFT-AI, al permitir detectar y cuantificar complejidad farmacoterapéutica como elemento clave para la priorización farmacéutica.", safetyNote: "No introduzca datos personales identificativos. Utilice únicamente información clínica necesaria y, si procede, identificadores seudonimizados. La herramienta se abre en una página externa. Verifique siempre las recomendaciones antes de aplicarlas en la práctica clínica." },
@@ -1228,9 +1229,9 @@
     ];
 
     const deftComponents = [
-      { key: "D", name: "Diagnosis", icon: "🔍", accent: "#2563eb", definition: "Evaluación continua de complejidad, necesidades y riesgos.", utility: "Ordena la priorización en consulta externa.", example: "Paciente VIH nuevo: estratificación, señales de complejidad y modalidad de seguimiento.", tools: "Hub de Estratificación, STRATA-CMO, Detector Cascadas, Calculadora MRCI, DrugPersist.", safety: "Toda alerta requiere validación farmacéutica." },
-      { key: "E", name: "Evidence", icon: "📚", accent: "#7c3aed", definition: "Conexión con evidencia científica, guías MAPEX y marco CMO.", utility: "Reduce variabilidad y sostiene decisiones documentadas.", example: "Consulta de evidencia ante una intervención compleja o gap de investigación.", tools: "Calculadora MRCI, DrugPersist, Evidence Gap Radar, Paper DEFT-AI, recursos MAPEX-SEFH.", safety: "Verificar fuentes y actualidad de la evidencia." },
-      { key: "F", name: "Feedback", icon: "🔁", accent: "#0d9488", definition: "Retroalimentación personalizada para intervención, aprendizaje y seguimiento.", utility: "Permite reevaluar objetivos farmacoterapéuticos y adherencia.", example: "Feedback al residente tras entrevista motivacional o al paciente tras seguimiento.", tools: "STRATA-CMO, Calculadora MRCI, DrugPersist, CMOpharma GPT, Análisis Entrevista Motivacional.", safety: "No automatizar conclusiones sin revisión profesional." },
+      { key: "D", name: "Diagnosis", icon: "🔍", accent: "#2563eb", definition: "Evaluación continua de complejidad, necesidades y riesgos.", utility: "Ordena la priorización en consulta externa.", example: "Paciente VIH nuevo: estratificación, señales de complejidad y modalidad de seguimiento.", tools: "Hub de Estratificación, STRATA-CMO, cambiosTAR, Detector Cascadas, Calculadora MRCI, DrugPersist.", safety: "Toda alerta requiere validación farmacéutica." },
+      { key: "E", name: "Evidence", icon: "📚", accent: "#7c3aed", definition: "Conexión con evidencia científica, guías MAPEX y marco CMO.", utility: "Reduce variabilidad y sostiene decisiones documentadas.", example: "Consulta de evidencia ante una intervención compleja o gap de investigación.", tools: "cambiosTAR, Calculadora MRCI, DrugPersist, Evidence Gap Radar, Paper DEFT-AI, recursos MAPEX-SEFH.", safety: "Verificar fuentes y actualidad de la evidencia." },
+      { key: "F", name: "Feedback", icon: "🔁", accent: "#0d9488", definition: "Retroalimentación personalizada para intervención, aprendizaje y seguimiento.", utility: "Permite reevaluar objetivos farmacoterapéuticos y adherencia.", example: "Feedback al residente tras entrevista motivacional o al paciente tras seguimiento.", tools: "STRATA-CMO, cambiosTAR, Calculadora MRCI, DrugPersist, CMOpharma GPT, Análisis Entrevista Motivacional.", safety: "No automatizar conclusiones sin revisión profesional." },
       { key: "T", name: "Teaching", icon: "🎓", accent: "#f59e0b", definition: "Educación del paciente, residentes y profesionales con lenguaje adaptado.", utility: "Mejora comprensión del tratamiento y competencias clínicas.", example: "Explicar un plan CMO con infografía y prompts docentes.", tools: "Rxplain, CMOpharma GPT, guías MAPEX.", safety: "Adaptar el mensaje a alfabetización sanitaria y digital." },
       { key: "AI", name: "AI habilitadora", icon: "🤖", accent: "#db2777", definition: "IA como capa transversal que optimiza flujos y síntesis.", utility: "Aumenta capacidad de análisis sin desplazar la decisión profesional.", example: "Borrador de intervención CMO que el farmacéutico valida y ajusta.", tools: "CMOpharma GPT, STRATA-CMO, Detector Cascadas, herramientas Claude.", safety: "No introducir datos identificativos y verificar recomendaciones." }
     ];
@@ -1244,7 +1245,8 @@
       ],
       docencia: [
         { icon: "🧬", title: "VIH-PRO | Herramienta del proyecto de investigación", desc: "Acceso a la herramienta vinculada al proyecto de investigación en desarrollo.", url: "https://v2.e-midcare.com/panel/vihpro.php" },
-        { icon: "🏥", title: "Farmacia Valme CPV | Web docente y asistencial", desc: "Web docente y asistencial de Farmacia Valme CPV.", url: "https://www.farmaciavalmecpv.com/" }
+        { icon: "🏥", title: "Farmacia Valme CPV | Web docente y asistencial", desc: "Web docente y asistencial de Farmacia Valme CPV.", url: "https://www.farmaciavalmecpv.com/" },
+        { icon: "📊", title: "cambiosTAR", desc: "Registro, análisis, dashboard e informes de cambios de tratamiento antirretroviral en consulta VIH.", url: "https://ramonmorillo.github.io/cambiosTAR/#inicio" }
       ],
       ai: [
         { icon: "💬", title: "Claude", desc: "Herramientas y análisis asistido.", url: "https://claude.ai" },
@@ -1259,8 +1261,8 @@
 
     const checklist = [
       { title: "Antes de la consulta", icon: "📅", items: ["Revisar agenda.", "Identificar pacientes complejos.", "Estratificar si procede.", "Revisar farmacoterapia.", "Detectar alertas."] },
-      { title: "Durante la consulta", icon: "👤", items: ["Aplicar entrevista farmacoterapéutica.", "Valorar Capacidad, Motivación y Oportunidad.", "Consultar recursos CMO.", "Generar plan individualizado.", "Acordar objetivos farmacoterapéuticos."] },
-      { title: "Después de la consulta", icon: "📝", items: ["Registrar intervención.", "Programar seguimiento.", "Evaluar resultados.", "Alimentar proyectos de investigación.", "Revisar indicadores."] }
+      { title: "Durante la consulta", icon: "👤", items: ["Aplicar entrevista farmacoterapéutica.", "Valorar Capacidad, Motivación y Oportunidad.", "Registrar cambios TAR si procede.", "Consultar recursos CMO.", "Generar plan individualizado.", "Acordar objetivos farmacoterapéuticos."] },
+      { title: "Después de la consulta", icon: "📝", items: ["Registrar intervención.", "Programar seguimiento.", "Evaluar resultados.", "Exportar copias de seguridad periódicas si se usa almacenamiento local.", "Alimentar proyectos de investigación.", "Revisar indicadores."] }
     ];
 
     const matrixExamples = {
@@ -1271,7 +1273,7 @@
 
     const journeys = [
       { title: "Escenario 1. Paciente nuevo en consulta externa", icon: "🆕", intro: "Primer contacto con necesidad de priorización segura.", steps: { Problema: "Estratificación inicial e identificación de complejidad.", Herramienta: "Hub de Estratificación + STRATA-CMO.", Acción: "Plan CMO, modalidad de seguimiento y registro de intervención.", Resultado: "Consulta más ordenada y continuidad adaptada." } },
-      { title: "Escenario 2. Paciente con VIH y riesgo de cascada terapéutica", icon: "🧬", intro: "Señales de riesgo que requieren análisis sin automatizar decisiones.", steps: { Problema: "Detección de señales y revisión farmacoterapéutica.", Herramienta: "Detector Cascadas + apoyo IA.", Acción: "Validación farmacéutica, intervención y seguimiento.", Resultado: "Menor riesgo de cascada y trazabilidad investigadora." } },
+      { title: "Escenario 2. Paciente con VIH y riesgo de cascada terapéutica", icon: "🧬", intro: "Señales de riesgo que requieren análisis sin automatizar decisiones.", steps: { Problema: "Detección de señales y revisión farmacoterapéutica.", Herramienta: "cambiosTAR + Detector Cascadas + apoyo IA.", Acción: "Registro seudonimizado de cambios TAR, validación farmacéutica, intervención y seguimiento.", Resultado: "Mayor trazabilidad longitudinal, análisis de cambios terapéuticos y menor riesgo de cascada." } },
       { title: "Escenario 3. Formación de residentes", icon: "🎓", intro: "Aprendizaje basado en CMO, entrevista y pensamiento clínico.", steps: { Problema: "Necesidad de entrenar comunicación y razonamiento CMO.", Herramienta: "CMOpharma GPT + Análisis Entrevista Motivacional.", Acción: "Prompts docentes, análisis de casos y feedback.", Resultado: "Competencias clínicas y digitales más sólidas." } },
       { title: "Escenario 4. Gestión e investigación", icon: "📊", intro: "Transformar actividad en indicadores agregados y aprendizaje real.", steps: { Problema: "Datos agregados dispersos y necesidad de benchmarking.", Herramienta: "Evidence Gap Radar + dashboard simulado.", Acción: "Indicadores, gaps de evidencia y resultados en práctica real.", Resultado: "Escalabilidad, investigación y mejora continua." } }
     ];
@@ -1283,6 +1285,7 @@
       "Verificar siempre cualquier recomendación generada por IA.",
       "Mantener al farmacéutico de hospital como responsable final de la decisión.",
       "Usar la herramienta como soporte, no como sustitución del juicio clínico.",
+      "En herramientas locales como cambiosTAR, realizar copias de seguridad periódicas del navegador y trabajar con identificadores seudonimizados.",
       "En herramientas externas como la Calculadora MRCI, utilizar únicamente información clínica necesaria y, si procede, identificadores seudonimizados."
     ];
 
@@ -1345,7 +1348,7 @@
 
     function renderFilters() {
       const filters = [
-        ["todos", "Todos"], ["diario", "Uso diario"], ["clinica", "Clínicas"], ["docente", "Docentes"], ["investigador", "Investigadoras"], ["ia", "Integración IA"], ["mapex", "MAPEX/CMO"]
+        ["todos", "Todos"], ["diario", "Uso diario"], ["vih", "VIH"], ["clinica", "Clínicas"], ["docente", "Docentes"], ["investigador", "Investigadoras"], ["ia", "Integración IA"], ["mapex", "MAPEX/CMO"]
       ];
       document.getElementById("artifactFilters").innerHTML = filters.map(([id, label]) => `<button class="filter-btn ${id === activeFilter ? "active" : ""}" type="button" data-filter="${id}">${label}</button>`).join("");
     }
@@ -1355,12 +1358,13 @@
       return artifacts.filter(a => {
         const matchesFilter = activeFilter === "todos" ||
           (activeFilter === "diario" && a.daily) ||
+          (activeFilter === "vih" && a.scope.includes("VIH")) ||
           (activeFilter === "clinica" && a.scope.includes("Clínica")) ||
           (activeFilter === "docente" && a.scope.includes("Docencia")) ||
           (activeFilter === "investigador" && a.scope.includes("Investigación")) ||
           (activeFilter === "ia" && (a.ai || a.deft.includes("AI habilitadora"))) ||
           (activeFilter === "mapex" && (a.mapex || a.cmo.length > 0));
-        const haystack = [a.id, a.name, a.description, a.category, a.state, a.use, a.type, ...a.cmo, ...a.deft, ...a.scope].join(" ").toLowerCase();
+        const haystack = [a.id, a.name, a.description, a.category, a.state, a.use, a.type, a.subtitle || "", a.note || "", a.safetyNote || "", ...(a.featureTags || []), ...a.cmo, ...a.deft, ...a.scope].join(" ").toLowerCase();
         return matchesFilter && (!search || haystack.includes(search));
       });
     }
@@ -1388,6 +1392,7 @@
             <div class="tag-row"><span class="tag-label">CMO</span>${a.cmo.map(x => `<span class="badge badge-teal">${x}</span>`).join("")}</div>
             <div class="tag-row"><span class="tag-label">DEFT-AI</span>${a.deft.map(x => `<span class="badge badge-violet">${x}</span>`).join("")}</div>
             <div class="tag-row"><span class="tag-label">Ámbito</span>${a.scope.map(x => `<span class="badge">${x}</span>`).join("")}</div>
+            ${a.featureTags ? `<div class="tag-row"><span class="tag-label">Etiquetas</span>${a.featureTags.map(x => `<span class="badge badge-amber">${x}</span>`).join("")}</div>` : ""}
           </div>
           ${a.note ? `<div class="insight-note">${a.note}</div>` : ""}
           ${a.deftNote ? `<div class="insight-note">${a.deftNote}</div>` : ""}
@@ -1491,7 +1496,7 @@
       const stateMax = Math.max(...states.map(([, value]) => value));
       document.getElementById("stateBars").innerHTML = states.map(([label, value]) => `<div class="bar-row"><span>${label}</span><div class="bar-track"><div class="bar-fill" style="width:${(value / stateMax) * 100}%"></div></div><strong>${value}</strong></div>`).join("");
 
-      const timeline = [["2024", "Núcleo CMO y primeras herramientas"], ["2025", "DEFT-AI, STRATA-CMO y herramientas IA"], ["2026", "Hub web y dashboard demostrativo"]];
+      const timeline = [["2024", "Núcleo CMO y primeras herramientas"], ["2025", "DEFT-AI, STRATA-CMO y herramientas IA"], ["2026", "Hub web, cambiosTAR y dashboard demostrativo"]];
       document.getElementById("timelineList").innerHTML = timeline.map(([year, text]) => `<div class="legend-item"><span class="legend-dot" style="--dot:#14b8a6"></span><strong>${year}</strong> ${text}</div>`).join("");
     }
 
