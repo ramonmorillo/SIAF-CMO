@@ -1176,7 +1176,7 @@
     <footer class="footer">
       <div class="container footer-grid">
         <div><strong data-platform-name>SIAF-CMO</strong><br /><span data-platform-full>Sistema Inteligente de Atención Farmacéutica basado en CMO-MAPEX-DEFT-AI</span></div>
-        <div class="footer-meta"><span data-platform-author>Autoría: Ramón Morillo</span> · <span data-platform-date>Junio 2026</span> · <span id="visitCounter" aria-live="polite">Visitas: 0</span></div>
+        <div class="footer-meta"><span data-platform-author>Autoría: Ramón Morillo</span> · <span data-platform-date>Junio 2026</span></div>
       </div>
     </footer>
   </div>
@@ -1510,16 +1510,6 @@
       document.getElementById("storyGrid").innerHTML = story.map(s => `<article class="story-card card"><div class="card-icon">${s.icon}</div><h3>${s.title}</h3><ul>${s.items.map(i => `<li>${i}</li>`).join("")}</ul></article>`).join("");
     }
 
-    function initVisitCounter() {
-      const counter = document.getElementById("visitCounter");
-      if (!counter) return;
-
-      const storageKey = "siaf-cmo-visit-count";
-      const visits = Number.parseInt(localStorage.getItem(storageKey) || "0", 10) + 1;
-      localStorage.setItem(storageKey, String(visits));
-      counter.textContent = `Visitas: ${visits.toLocaleString("es-ES")}`;
-    }
-
     function setupInteractions() {
       document.getElementById("artifactSearch").addEventListener("input", renderArtifacts);
       document.getElementById("artifactFilters").addEventListener("click", event => {
@@ -1589,7 +1579,6 @@
       renderDashboard();
       renderJourneys();
       renderSafetyAndStory();
-      initVisitCounter();
       setupInteractions();
     });
   </script>
